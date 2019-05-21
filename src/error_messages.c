@@ -18,7 +18,8 @@ int		errors_msg(int err)
 		ft_putendl("\nUsage: ./fdf input_file.fdf\n\n"
 				"Choose one of the available fractals below:\n"
 	"--> Julia\n"
- "--> Mandelbrot");
+ "--> Mandelbrot\n"
+ "--> Cubic_Mandelbrot");
 
 	//If no parameter is provided, or if the parameter is invalid,
 	// the program displays a list of available parameters and exits properly.

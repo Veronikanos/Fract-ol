@@ -10,7 +10,7 @@ include_directories(libft/includes)
 include_directories(inc)
 
 add_executable(${CMAKE_PROJECT_NAME}
-                ${SOURCES}  )
+                ${SOURCES} src/draw_fractals.c src/control.c)
 #-Wall -Wextra -Werror
 set(GCC_COVERAGE_COMPILE_FLAGS "-fsanitize=\"address\" -g -fno-omit-frame-pointer")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
