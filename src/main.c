@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:56:21 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/21 19:58:52 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/22 21:49:03 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,27 @@
 //    return (0);
 //}
 
-static t_pix    *init_mandelbrot(t_pix *pix)
+t_pix	*init_cubic_mandelbrot(t_pix *pix)
 {
 	if (!pix)
 		return (NULL);
-	pix->color_max = 0x000000;
+//	pix->color_max = 0xFFFFFF;
 	pix->color_value = 1;
-	pix->zoom = 1;
-	pix->move = (t_vec2){ -0.65, 0 };
-	pix->maxIter = 172;
+	pix->zoom = 0.5;
+	pix->move = (t_vec2){ 0, 0 };
+	pix->maxIter = 91;
 	pix->rate = (double)(WIDTH) / HEIGHT;
-	//	pix->new = (t_vec2){ 0, 0 };
-//	pix->old = (t_vec2){ 0, 0 };
-//	pix->zoom = reset_zoom();
+}
+t_pix	*init_mandelbrot(t_pix *pix)
+{
+	if (!pix)
+		return (NULL);
+//	pix->color_max = 0x000000;
+	pix->color_value = 1;
+	pix->zoom = 0.5;
+	pix->move = (t_vec2){ 0, 0 };
+	pix->maxIter = 32;
+	pix->rate = (double)(WIDTH) / HEIGHT;
 }
 
 static void		which_one_fract(char **argv, t_pix *pix)
@@ -76,7 +84,7 @@ static void		which_one_fract(char **argv, t_pix *pix)
 	else if (ft_strcmp(argv[1], "Cubic_Mandelbrot") == 0)
 	{
 		pix->fract_num = 2;
-		init_mandelbrot(pix);
+		init_cubic_mandelbrot(pix);
 	}
 	else
 		errors_msg(2);

@@ -123,5 +123,7 @@ typedef struct			s_pix
 int				errors_msg(int err);
 int				kb_press_key(int key, t_pix *pix);
 void			draw_screen(t_pix *pix);
+t_pix			*init_mandelbrot(t_pix *pix);
+t_pix			*init_cubic_mandelbrot(t_pix *pix);
 
 #endif

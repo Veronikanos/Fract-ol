@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/21 20:57:35 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/22 21:48:21 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,19 @@ static void			clear_img(t_pix *pix)
 	}
 }
 
-//unsigned int	get_color(int i, t_pix *pix, int maxIter)
-//{
-//	double t = (double)i / maxIter;
-//	int r = (int)(9 * (1 - t) * t * 255);
-//	int g = (int)(15 * (1 - t) * (1 - t) * 255);
-//	int b = (int)(8.5 * (1 - t) * (1 - t) * 255);
-//	unsigned int c = (r << 16) + (g << 8) + b;
-//	return (c);
-//}
+unsigned int	get_color(int i, int maxIter)
+{
+	double t;
 
-unsigned int	get_color (int i, int maxIter)
+	t = (double)i / maxIter;
+	int r = (int)(8 * (1 - t) * t * 255);
+	int g = (int)(9.5 * (1 - t) * (1 - t) * 255);
+	int b = (int)(4 * (1 - t) * 255);
+	unsigned int c = (r << 16) + (g << 8) + b;
+	return (c);
+}
+
+unsigned int	get_color_psy(int i, int maxIter)
 {
 	if (i == maxIter)
 		return (0xFFFFFF);
@@ -73,9 +75,7 @@ void			pixel_to_buf(int *buf, t_pix *pix, int x, int y, int color)
 
 static void		count_cubic_mandelbrot(t_pix *pix, int x, int y, double pr, double pi)
 {
-	//CUBIC MANDELBROT
 	size_t i;
-
 
 	i = UINT64_MAX;
 	while (++i < pix->maxIter)
@@ -85,7 +85,7 @@ static void		count_cubic_mandelbrot(t_pix *pix, int x, int y, double pr, double 
 							 ((pix->old.x * pix->old.x * 3) - pix->old.y * pix->old.y) * pix->old.y + pi };
 		if ((pix->new.x * pix->new.x + pix->new.y * pix->new.y) > 4)
 			break;
-		pixel_to_buf(pix->buf, pix, x, y, get_color(i, pix->maxIter));
+		pixel_to_buf(pix->buf, pix, x, y, get_color_psy(i, pix->maxIter));
 	}
 }
 
@@ -143,9 +143,13 @@ static void		draw_fract(t_pix *pix)
 			pix->new = (t_vec2){ 0, 0 };
 			pix->old = (t_vec2){ 0, 0 };
 			if (pix->fract_num == 1)
+			{
 				count_mandelbrot(pix, x, y, pr, pi);
+			}
 			else if (pix->fract_num == 2)
+			{
 				count_cubic_mandelbrot(pix, x, y, pr, pi);
+			}
 //			if (pix->fract_num = 0)
 //				count_smth();
 		}
