@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:54:23 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/21 20:45:37 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/27 21:19:26 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,11 @@ enum					e_keys
 {
 	ESC = 53, LEFT_ARROW = 123, RIGHT_ARROW = 124,
 	I = 34, UP_ARROW = 126, DOWN_ARROW = 125, PLUS = 69, MINUS = 78,
-	S = 1
-//	MOUSE_UP = 4,
-//	MOUSE_DOWN = 5,
+	S = 1, MOUSE_UP = 4, MOUSE_DOWN = 5,
 //	SIX = 88, FIVE = 87, THREE = 85,
 //	TWO = 84, NINE = 92, EIGHT = 91, P = 35,
 //	R = 15, I = 34, PLUS2 = 24, MINUS2 = 27
 };
-
-//typedef struct			s_draw
-//{
-//	int		x;
-//	int		y;
-//}						t_draw;
 
 typedef struct			s_vector2
 {
@@ -58,20 +50,19 @@ typedef struct			s_vector2
 	double	y;
 }						t_vec2;
 
-typedef struct			s_coordinates
+typedef struct			s_mouse
 {
-    t_vec2      pos;
-	int			color;
-}						t_coord;
+	int		x;
+	int		y;
+}						t_mouse;
+
 
 typedef struct			s_color
 {
-	double			R;
-	double			G;
-	double			B;
+	int			R;
+	int			G;
+	int			B;
 }						t_color;
-
-
 
 typedef struct			s_pix
 {
@@ -81,30 +72,20 @@ typedef struct			s_pix
 	t_vec2		move;
 	int 		maxIter;
 	double 		rate;
-//	double 		zr;
-//	double		zi;
-//	double 		cr;
-//	double 		ci;
 
 	t_vec2		new;
 	t_vec2		old;
+	t_vec2		real_im;
 
-	double		newRe;
-	double		newIm;
-	double		oldRe;
-	double		oldIm;
+	t_mouse		mouse;
 
 
-
-//	t_vec3		angle;
-//	t_vec3		**rot_map;
 //	t_draw		d_xy;
 //	t_draw		length;
 //	t_draw		point;
 	int 		fract_num;
 	int 		color_max;
 	t_color		col;
-	int 		color_value;
 	void		*mlx_ptr;
 	void		*win_ptr;
 	void		*img_ptr;
@@ -125,5 +106,7 @@ int				kb_press_key(int key, t_pix *pix);
 void			draw_screen(t_pix *pix);
 t_pix			*init_mandelbrot(t_pix *pix);
 t_pix			*init_cubic_mandelbrot(t_pix *pix);
+t_pix			*init_julia(t_pix *pix);
+int				mouse_scroll(int x, int y, t_pix *pix);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/22 21:48:21 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/27 21:50:24 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void			clear_img(t_pix *pix)
+static void		clear_img(t_pix *pix)
 {
 	size_t y;
 	size_t x;
@@ -28,26 +28,42 @@ static void			clear_img(t_pix *pix)
 	}
 }
 
-unsigned int	get_color(int i, int maxIter)
+unsigned int	color_breeze(int i, int maxIter, t_color col)
 {
-	double t;
+	unsigned int c;
 
-	t = (double)i / maxIter;
-	int r = (int)(8 * (1 - t) * t * 255);
-	int g = (int)(9.5 * (1 - t) * (1 - t) * 255);
-	int b = (int)(4 * (1 - t) * 255);
-	unsigned int c = (r << 16) + (g << 8) + b;
+	if (i == maxIter)
+		return (0);
+
+	col = (t_color) {cos(0.8 * (double) i + 2),
+					 sin(0.3 * (double) i + 3) * 128 + 128,
+					 sin(0.3 * (double) i + 3) * 128 + 230};
+	c = ((col.R << 16) + (col.G << 8) + col.B);
 	return (c);
 }
+
+//unsigned int	color_breeze(int i, int maxIter, t_color col)
+//{
+//	unsigned int c;
+//
+//	if (i == maxIter)
+//		return (0);
+//
+//	col = (t_color) { cos(128 / maxIter + 50),
+//					  sin(256 / maxIter) + 50 * 120,
+//					cos( (double)i / maxIter) + 320 * 120};
+//	c = ((col.R << 16) + (col.G << 8) + col.B);
+//	return (c);
+//}
 
 unsigned int	get_color_psy(int i, int maxIter)
 {
 	if (i == maxIter)
-		return (0xFFFFFF);
+		return (0);
 	return ((0xFFFFFF / maxIter) * (i + 1000));
 }
 
-void			pixel_to_buf(int *buf, t_pix *pix, int x, int y, int color)
+void			pixel_to_buf(int *buf, int x, int y, int color)
 {
 //	x += pix->move.x;
 //	y += pix->move.y;
@@ -55,80 +71,60 @@ void			pixel_to_buf(int *buf, t_pix *pix, int x, int y, int color)
 		buf[y * WIDTH + x] = color;
 }
 
-//static void		count_mandelbrot(t_pix *pix, int x, int y, double pr, double pi)
-//{
-//	//CUBIC MANDELBROT
-//	size_t i;
-//
-//
-//	i = UINT64_MAX;
-//	while (++i < pix->maxIter)
-//	{
-//		pix->old = (t_vec2){ pix->new.x, pix->new.y };
-//		pix->new = (t_vec2){ (pix->old.x * pix->old.x - (pix->old.y * pix->old.y * 1.7)) * pix->old.x + pr,
-//							 ((pix->old.x * pix->old.x * 1.7) * 0.42 - pix->old.y * pix->old.y) * pix->old.y + pi };
-//		if ((pix->new.x * pix->new.x + pix->new.y * pix->new.y) > 4)
-//			break;
-//		pixel_to_buf(pix->buf, pix, x, y, get_color(i, pix->maxIter));
-//	}
-//}
-
-static void		count_cubic_mandelbrot(t_pix *pix, int x, int y, double pr, double pi)
+static void		count_cubic_mandelbrot(t_pix *pix, int x, int y)
 {
 	size_t i;
 
 	i = UINT64_MAX;
-	while (++i < pix->maxIter)
+	while (++i <= pix->maxIter)
 	{
 		pix->old = (t_vec2){ pix->new.x, pix->new.y };
-		pix->new = (t_vec2){ (pix->old.x * pix->old.x - (pix->old.y * pix->old.y * 3)) * pix->old.x + pr,
-							 ((pix->old.x * pix->old.x * 3) - pix->old.y * pix->old.y) * pix->old.y + pi };
+		pix->new = (t_vec2){ (pix->old.x * pix->old.x
+					- (pix->old.y * pix->old.y * 3)) * pix->old.x + pix->real_im.x,
+					((pix->old.x * pix->old.x * 3)
+					- pix->old.y * pix->old.y) * pix->old.y + pix->real_im.y };
 		if ((pix->new.x * pix->new.x + pix->new.y * pix->new.y) > 4)
 			break;
-		pixel_to_buf(pix->buf, pix, x, y, get_color_psy(i, pix->maxIter));
+		pixel_to_buf(pix->buf, x, y, get_color_psy(i, pix->maxIter));
 	}
 }
 
-//static void		count_mandelbrot(t_pix *pix, int x, int y, double pr, double pi)
-//{
-//	size_t i;
-//
-//
-//	i = UINT64_MAX;
-//	while (++i < pix->maxIter)
-//	{
-//		pix->old = (t_vec2){ pix->new.x, pix->new.y };
-//		pix->new.x = pix->old.x * pix->old.x - pix->new.y * pix->new.y + pr;
-//		pix->old.x < 0 ? pix->old.x * -1 : pix->old.x * 1;
-//		pix->new.y = pix->old.x * pix->old.y * -2 + pi;
-//		if ((pix->new.x * pix->new.x + pix->new.y * pix->new.y) > 4)
-//			break;
-//		pixel_to_buf(pix->buf, pix, x, y, get_color(i, pix->maxIter));
-//	}
-//}
-
-static void		count_mandelbrot(t_pix *pix, int x, int y, double pr, double pi)
+static void		count_mandelbrot(t_pix *pix, int x, int y)
 {
 	size_t i;
 
-
 	i = UINT64_MAX;
-	while (++i < pix->maxIter)
+	while (++i <= pix->maxIter)
 	{
 		pix->old = (t_vec2){ pix->new.x, pix->new.y };
 		pix->new = (t_vec2){ pix->old.x * pix->old.x -
-							 pix->new.y * pix->new.y + pr,
-							 2 * pix->old.x * pix->old.y + pi };
+							 pix->new.y * pix->new.y + pix->real_im.x,
+							 2 * pix->old.x * pix->old.y + pix->real_im.y };
 		if ((pix->new.x * pix->new.x + pix->new.y * pix->new.y) > 4)
 			break;
-		pixel_to_buf(pix->buf, pix, x, y, get_color(i, pix->maxIter));
+			pixel_to_buf(pix->buf, x, y, color_breeze(i, pix->maxIter, pix->col));
 	}
+}
+
+static void		julia_iter(t_pix *pix, int x, int y)
+{
+	pix->new =
+		(t_vec2) { pix->rate * (x - H_WIDTH_S) / (0.5 * pix->zoom * WIDTH ) + pix->move.x,
+				(y - H_HEIGHT_S) / (0.5 * pix->zoom * HEIGHT) + pix->move.y };
+	count_mandelbrot(pix, x, y);
+}
+
+static void		mandelbrot_iter(t_pix *pix, int x, int y)
+{
+	pix->real_im = (t_vec2) {pix->rate * (x - H_WIDTH_S)
+				/ (0.5 * pix->zoom * WIDTH) + pix->move.x,
+				(y - H_HEIGHT_S) / (0.5 * pix->zoom * HEIGHT)+ pix->move.y};
+	pix->new = (t_vec2) {0, 0};
+	pix->old = (t_vec2) {0, 0};
 }
 
 static void		draw_fract(t_pix *pix)
 {
-	double pr;
-	double pi;
 	size_t x;
 	size_t y;
 
@@ -138,20 +134,16 @@ static void		draw_fract(t_pix *pix)
 		x = UINT64_MAX;
 		while (++x < WIDTH)
 		{
-			pr = pix->rate * (x - H_WIDTH_S) / (0.5 * pix->zoom * WIDTH ) + pix->move.x;
-			pi =             (y - H_HEIGHT_S) / (0.5 * pix->zoom * HEIGHT) + pix->move.y;
-			pix->new = (t_vec2){ 0, 0 };
-			pix->old = (t_vec2){ 0, 0 };
-			if (pix->fract_num == 1)
+			if (pix->fract_num == 0)
+				julia_iter(pix, x, y);
+			else
 			{
-				count_mandelbrot(pix, x, y, pr, pi);
+				mandelbrot_iter(pix, x, y);
+				if (pix->fract_num == 1)
+					count_mandelbrot(pix, x, y);
+				else if (pix->fract_num == 2)
+					count_cubic_mandelbrot(pix, x, y);
 			}
-			else if (pix->fract_num == 2)
-			{
-				count_cubic_mandelbrot(pix, x, y, pr, pi);
-			}
-//			if (pix->fract_num = 0)
-//				count_smth();
 		}
 	}
 }
@@ -159,7 +151,7 @@ static void		draw_fract(t_pix *pix)
 void				draw_screen(t_pix *pix)
 {
 	mlx_clear_window(pix->mlx_ptr, pix->win_ptr);
-	draw_fract(pix);
+		draw_fract(pix);
 	mlx_put_image_to_window(pix->mlx_ptr, pix->win_ptr, pix->img_ptr, 0, 0);
 	clear_img(pix);
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 30, COLOR,

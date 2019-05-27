@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:56:21 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/22 21:49:03 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/27 21:29:04 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,46 +25,35 @@
 //
 
 
-//int				mouse_scroll(int key, int x, int y, t_pix *pix)
-//{
-////    x = x + 1;
-////    y = y + 1;
-////    if (key == MOUSE_UP && map->zoom.x < 142 && map->zoom.y < 142)
-////    {
-////        map->zoom.x *= 1.1;
-////        map->zoom.y *= 1.1;
-////        map->zoom.z *= 1.1;
-////    }
-////    if (key == MOUSE_DOWN && map->zoom.x > 1 && map->zoom.y > 1)
-////    {
-////        map->zoom.x *= 0.9;
-////        map->zoom.y *= 0.9;
-////        map->zoom.z *= 0.9;
-////    }
-////    draw_screen(map);
-//    return (0);
-//}
+t_pix	*init_julia(t_pix *pix)
+{
+	if (!pix)
+		return (NULL);
+//	pix->color_max = 0xFFFFFF;
+	pix->real_im = (t_vec2){ -0.556, 0.53415 };
+	pix->zoom = 0.5;
+	pix->move = (t_vec2){ 0, 0 };
+	pix->maxIter = 120;
+	pix->rate = (double)(WIDTH) / HEIGHT;
+}
 
 t_pix	*init_cubic_mandelbrot(t_pix *pix)
 {
 	if (!pix)
 		return (NULL);
-//	pix->color_max = 0xFFFFFF;
-	pix->color_value = 1;
 	pix->zoom = 0.5;
 	pix->move = (t_vec2){ 0, 0 };
 	pix->maxIter = 91;
 	pix->rate = (double)(WIDTH) / HEIGHT;
 }
+
 t_pix	*init_mandelbrot(t_pix *pix)
 {
 	if (!pix)
 		return (NULL);
-//	pix->color_max = 0x000000;
-	pix->color_value = 1;
 	pix->zoom = 0.5;
 	pix->move = (t_vec2){ 0, 0 };
-	pix->maxIter = 32;
+	pix->maxIter = 28;
 	pix->rate = (double)(WIDTH) / HEIGHT;
 }
 
@@ -73,8 +62,7 @@ static void		which_one_fract(char **argv, t_pix *pix)
 	if (ft_strcmp(argv[1], "Julia") == 0)
 	{
 		pix->fract_num = 0;
-//		julia_init(pix);
-//		calc_fract(pix);
+		init_julia(pix);
 	}
 	else if (ft_strcmp(argv[1], "Mandelbrot") == 0)
 	{
@@ -116,14 +104,10 @@ int				main(int argc, char **argv)
 			which_one_fract(argv, pix);
 			draw_screen(pix);
 
-//			init_frac()
-
-//			read_screen(frac);
-//			draw_screen(frac);
-
 
 			mlx_hook(pix->win_ptr, 2, 5, kb_press_key, pix);
-//			mlx_mouse_hook(frac->win_ptr, mouse_scroll, frac);
+//			mlx_mouse_hook(pix->win_ptr, mouse_scroll, pix);
+			mlx_hook(pix->win_ptr, 6, 8, mouse_scroll, pix);
 			mlx_hook(pix->win_ptr, 17, 1L << 17, errors_msg, NULL);
 			mlx_loop(pix->mlx_ptr);
 			mlx_destroy_window(pix->mlx_ptr, pix->win_ptr);
