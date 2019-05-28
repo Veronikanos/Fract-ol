@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:55:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/04/27 17:26:47 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/28 20:20:25 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int		errors_msg(int err)
 				"Choose one of the available fractals below:\n"
 	"--> Julia\n"
  "--> Mandelbrot\n"
- "--> Cubic_Mandelbrot");
+ "--> Cubic_mandelbrot\n"
+ "--> Tricorn\n"
+ "--> Burning_ship\n"
+ "--> Heart\n");
 
 	//If no parameter is provided, or if the parameter is invalid,
 	// the program displays a list of available parameters and exits properly.
@@ -31,9 +34,10 @@ int		errors_msg(int err)
 	else if (err == 4)
 		ft_putendl("Impossible to allocate memory.\n");
 	else if (err == 5)
-		ft_putendl("There are no string to write from file.\n");
+		ft_putendl("404.\n");
 	else if (err == 6)
 		ft_putendl("Invalid file or it is a directory.\n");
+//	system("leaks -q fractol");
 	exit(0);
 	return (0);
 }

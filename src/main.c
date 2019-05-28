@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:56:21 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/27 21:29:04 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/28 20:20:25 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,39 +24,6 @@
 //}
 //
 
-
-t_pix	*init_julia(t_pix *pix)
-{
-	if (!pix)
-		return (NULL);
-//	pix->color_max = 0xFFFFFF;
-	pix->real_im = (t_vec2){ -0.556, 0.53415 };
-	pix->zoom = 0.5;
-	pix->move = (t_vec2){ 0, 0 };
-	pix->maxIter = 120;
-	pix->rate = (double)(WIDTH) / HEIGHT;
-}
-
-t_pix	*init_cubic_mandelbrot(t_pix *pix)
-{
-	if (!pix)
-		return (NULL);
-	pix->zoom = 0.5;
-	pix->move = (t_vec2){ 0, 0 };
-	pix->maxIter = 91;
-	pix->rate = (double)(WIDTH) / HEIGHT;
-}
-
-t_pix	*init_mandelbrot(t_pix *pix)
-{
-	if (!pix)
-		return (NULL);
-	pix->zoom = 0.5;
-	pix->move = (t_vec2){ 0, 0 };
-	pix->maxIter = 28;
-	pix->rate = (double)(WIDTH) / HEIGHT;
-}
-
 static void		which_one_fract(char **argv, t_pix *pix)
 {
 	if (ft_strcmp(argv[1], "Julia") == 0)
@@ -69,10 +36,25 @@ static void		which_one_fract(char **argv, t_pix *pix)
 		pix->fract_num = 1;
 		init_mandelbrot(pix);
 	}
-	else if (ft_strcmp(argv[1], "Cubic_Mandelbrot") == 0)
+	else if (ft_strcmp(argv[1], "Cubic_mandelbrot") == 0)
 	{
 		pix->fract_num = 2;
 		init_cubic_mandelbrot(pix);
+	}
+	else if (ft_strcmp(argv[1], "Tricorn") == 0)
+	{
+		pix->fract_num = 3;
+		init_mandelbrot(pix);
+	}
+	else if (ft_strcmp(argv[1], "Burning_ship") == 0)
+	{
+		pix->fract_num = 4;
+		init_mandelbrot(pix);
+	}
+	else if (ft_strcmp(argv[1], "Heart") == 0)
+	{
+		pix->fract_num = 5;
+		init_mandelbrot(pix);
 	}
 	else
 		errors_msg(2);
@@ -111,6 +93,7 @@ int				main(int argc, char **argv)
 			mlx_hook(pix->win_ptr, 17, 1L << 17, errors_msg, NULL);
 			mlx_loop(pix->mlx_ptr);
 			mlx_destroy_window(pix->mlx_ptr, pix->win_ptr);
+		//	system("leaks -q fractol");
         }
 	return (0);
 }

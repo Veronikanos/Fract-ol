@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/27 22:06:51 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/28 20:31:02 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,21 @@ static void		change_fractals(t_pix *pix)
 		pix->fract_num++;
 		init_cubic_mandelbrot(pix);
 	}
+	else if (pix->fract_num == 2)
+	{
+		pix->fract_num++;
+		init_mandelbrot(pix);
+	}
+	else if (pix->fract_num == 3)
+	{
+		pix->fract_num++;
+		init_burning_ship(pix);
+	}
+	else if (pix->fract_num == 4)
+	{
+		pix->fract_num++;
+		init_heart(pix);
+	}
 	else
 	{
 		pix->fract_num = 0;
@@ -35,7 +50,10 @@ static void		change_fractals(t_pix *pix)
 int				kb_press_key(int key, t_pix *pix)
 {
 	if (key == ESC)
+//	{
+//		system("leaks -q fractol");
 		exit(0);
+//	}
 	if (key == I)
 		pix->maxIter += 5;
 	if (key == LEFT_ARROW)

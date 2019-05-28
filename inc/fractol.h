@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:54:23 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/27 21:19:26 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/28 20:31:02 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ typedef struct			s_mouse
 
 typedef struct			s_color
 {
-	int			R;
-	int			G;
-	int			B;
+	unsigned int		R;
+	unsigned int		G;
+	unsigned int		B;
 }						t_color;
 
 typedef struct			s_pix
@@ -104,9 +104,24 @@ typedef struct			s_pix
 int				errors_msg(int err);
 int				kb_press_key(int key, t_pix *pix);
 void			draw_screen(t_pix *pix);
-t_pix			*init_mandelbrot(t_pix *pix);
-t_pix			*init_cubic_mandelbrot(t_pix *pix);
-t_pix			*init_julia(t_pix *pix);
+void			init_mandelbrot(t_pix *pix);
+void			init_cubic_mandelbrot(t_pix *pix);
+void			init_julia(t_pix *pix);
 int				mouse_scroll(int x, int y, t_pix *pix);
+unsigned int	color_breeze(int i, int maxIter, t_color col);
+unsigned int	get_color_psy(int i, int maxIter);
+unsigned int	color_flame(int i, int maxIter, t_color col);
+unsigned int	color_burning_ship(int i, int maxIter, t_color col);
+unsigned int	color(int i, int maxIter, t_color col);
+void			count_tricorn(t_pix *pix, int x, int y);
+void			count_cubic_mandelbrot(t_pix *pix, int x, int y);
+void			count_mandelbrot(t_pix *pix, int x, int y);
+void			pixel_to_buf(int *buf, int x, int y, int color);
+void			count_ship(t_pix *pix, int x, int y);
+void			count_heart(t_pix *pix, int x, int y);
+void			init_burning_ship(t_pix *pix);
+void			init_heart(t_pix *pix);
+
+
 
 #endif
