@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:13:42 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/28 21:08:21 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/31 21:43:04 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,13 @@ unsigned int	color_flame(int i, int maxIter, t_color col)
 	return ((col.R << 16) + (col.G << 8) + col.B);
 }
 
-unsigned int	color(int i, int maxIter, t_color col)
+unsigned int	color_red(int i, int maxIter, t_color col)
 {
 	if (i == maxIter)
 		return (0);
-	else if (i < 64)
-		col = (t_color) { i * 2, 0, 0 };
-	else if (i < 128)
-		col = (t_color) { ((i - 64) * 128 / 126) + 128, 0, 0 };
-	else if (i < 256)
-		col = (t_color) { ((i - 128) * 62 / 127) + 193, 0, 0 };
-	else if (i < 512)
-		col = (t_color) { 255, ((i - 256) * 62 / 255) + 1, 0 };
-	else if (i < 1024)
-		col = (t_color) { 255, ((i - 512) * 63 / 511) + 64, 0 };
-	else if (i < 2048)
-		col = (t_color) { 255, ((i - 1024) * 63 / 1023) + 128, 0 };
-	else if (i < 4096)
-		col = (t_color) { 255, ((i - 2048) * 63 / 2047) + 192, 0 };
+	col = (t_color) { sin(0.27 * (double)i + 2.5) * 127 + 135,
+				sin(0.15 * (double)i + 4.5) * 127 + 128,
+				sin(0.3 * (double)i + 3.8) * 127 + 128};
 	return ((col.R << 16) + (col.G << 8) + col.B);
 }
 

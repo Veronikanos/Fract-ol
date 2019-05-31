@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:54:23 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/28 20:31:02 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/05/31 18:32:01 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ unsigned int	get_color_psy(int i, int maxIter);
 unsigned int	color_flame(int i, int maxIter, t_color col);
 unsigned int	color_burning_ship(int i, int maxIter, t_color col);
 unsigned int	color(int i, int maxIter, t_color col);
+unsigned int	color_red(int i, int maxIter, t_color col);
 void			count_tricorn(t_pix *pix, int x, int y);
 void			count_cubic_mandelbrot(t_pix *pix, int x, int y);
 void			count_mandelbrot(t_pix *pix, int x, int y);
