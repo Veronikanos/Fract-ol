@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/28 20:31:02 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/01 21:59:52 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,20 @@
 
 static void		change_fractals(t_pix *pix)
 {
-	if (pix->fract_num == 0)
-	{
-		pix->fract_num++;
+	pix->fract_num++;
+	pix->fract_num = pix->fract_num % 5;
+	if (pix->fract_num == 1)
 		init_mandelbrot(pix);
-	}
-	else if (pix->fract_num == 1)
-	{
-		pix->fract_num++;
-		init_cubic_mandelbrot(pix);
-	}
 	else if (pix->fract_num == 2)
-	{
-		pix->fract_num++;
-		init_mandelbrot(pix);
-	}
+		init_cubic_mandelbrot(pix);
 	else if (pix->fract_num == 3)
-	{
-		pix->fract_num++;
-		init_burning_ship(pix);
-	}
+		init_mandelbrot(pix);
 	else if (pix->fract_num == 4)
-	{
-		pix->fract_num++;
+		init_burning_ship(pix);
+	else if (pix->fract_num == 5)
 		init_heart(pix);
-	}
-	else
-	{
-		pix->fract_num = 0;
+	if (pix->fract_num == 5)
 		init_julia(pix);
-	}
 	draw_screen(pix);
 }
 

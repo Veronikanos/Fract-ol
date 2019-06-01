@@ -26,36 +26,18 @@
 
 static void		which_one_fract(char **argv, t_pix *pix)
 {
-	if (ft_strcmp(argv[1], "Julia") == 0)
-	{
-		pix->fract_num = 0;
+	if (ft_strcmp(argv[1], "Julia") == 0 && (pix->fract_num = 0) == 0)
 		init_julia(pix);
-	}
-	else if (ft_strcmp(argv[1], "Mandelbrot") == 0)
-	{
-		pix->fract_num = 1;
+	else if (ft_strcmp(argv[1], "Mandelbrot") == 0 && (pix->fract_num = 1))
 		init_mandelbrot(pix);
-	}
-	else if (ft_strcmp(argv[1], "Cubic_mandelbrot") == 0)
-	{
-		pix->fract_num = 2;
+	else if (ft_strcmp(argv[1], "Cubic_mandelbrot") == 0 && (pix->fract_num = 2))
 		init_cubic_mandelbrot(pix);
-	}
-	else if (ft_strcmp(argv[1], "Tricorn") == 0)
-	{
-		pix->fract_num = 3;
+	else if (ft_strcmp(argv[1], "Tricorn") == 0 && (pix->fract_num = 3))
 		init_mandelbrot(pix);
-	}
-	else if (ft_strcmp(argv[1], "Burning_ship") == 0)
-	{
-		pix->fract_num = 4;
+	else if (ft_strcmp(argv[1], "Burning_ship") == 0 && (pix->fract_num = 4))
 		init_mandelbrot(pix);
-	}
-	else if (ft_strcmp(argv[1], "Heart") == 0)
-	{
-		pix->fract_num = 5;
+	else if (ft_strcmp(argv[1], "Heart") == 0 && (pix->fract_num = 5))
 		init_mandelbrot(pix);
-	}
 	else
 		errors_msg(2);
 }
@@ -85,7 +67,6 @@ int				main(int argc, char **argv)
 			init_win(pix);
 			which_one_fract(argv, pix);
 			draw_screen(pix);
-
 
 			mlx_hook(pix->win_ptr, 2, 5, kb_press_key, pix);
 //			mlx_mouse_hook(pix->win_ptr, mouse_scroll, pix);
