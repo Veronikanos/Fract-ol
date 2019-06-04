@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/04 17:12:37 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/04 22:37:11 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ void			pixel_to_buf(int *buf, int x, int y, int color)
 
 static void		julia_iter(t_pix *pix, int x, int y)
 {
-	pix->new =
-		(t_vec2) { pix->rate * (x - H_WIDTH) / (0.5 * pix->zoom * WIDTH ) + pix->move.x,
-				(y - H_HEIGHT) / (0.5 * pix->zoom * HEIGHT) + pix->move.y };
+	pix->new = (t_vec2) {pix->rate
+					* (x - H_WIDTH) / (pix->zoom * WIDTH ) + pix->move.x,
+					(y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y };
 	count_mandelbrot(pix, x, y);
 }
 
 static void		mandelbrot_iter(t_pix *pix, int x, int y)
 {
-	pix->real_im = (t_vec2) {pix->rate * (x - H_WIDTH)
-				/ (0.5 * pix->zoom * WIDTH) + pix->move.x,
-				(y - H_HEIGHT) / (0.5 * pix->zoom * HEIGHT)+ pix->move.y};
-	pix->new = (t_vec2) {0, 0};
-	pix->old = (t_vec2) {0, 0};
+	pix->real_im = (t_vec2) { pix->rate
+						* (x - H_WIDTH) / (pix->zoom * WIDTH) + pix->move.x,
+						(y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y };
+	pix->new = (t_vec2) { 0, 0 };
+	pix->old = (t_vec2) { 0, 0 };
 }
 
 static void		draw_fract(t_pix *pix)

@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/04 18:50:18 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/04 22:00:00 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int				kb_press_key(int key, t_pix *pix)
 	if (key == DOWN_ARROW)
 		pix->move.y -= 0.05;
 	if (key == PLUS)
-		pix->zoom += 0.1;
+		pix->zoom += 0.05;
 	if (key == MINUS)
-		pix->zoom -= 0.1;
+		pix->zoom -= 0.05;
 	if (key == S)
 		change_reset(pix);
 	if (key == R)
@@ -72,19 +72,20 @@ int				kb_press_key(int key, t_pix *pix)
 //		mouse_zoom(key, x, y, pix);
 //}
 
-//int				mouse_zoom(int key, int x, int y, t_pix *pix)
-//{
-//	if (key == MOUSE_UP)
-//	{
-//
-//	}
-//	if (key == MOUSE_DOWN)
-//	{
-//
-//	}
-//	draw_screen(pix);
-//	return (0);
-//}
+
+int				mouse_zoom(int key, int x, int y, t_pix *pix)
+{
+	if (key == MOUSE_UP)
+	{
+		pix->zoom += 0.05;
+	}
+	if (key == MOUSE_DOWN)
+	{
+		pix->zoom -= 0.05;
+	}
+	draw_screen(pix);
+	return (0);
+}
 
 int				mouse_julia(int x, int y, t_pix *pix)
 {
@@ -92,7 +93,7 @@ int				mouse_julia(int x, int y, t_pix *pix)
 	{
 		pix->real_im.x = (x - H_WIDTH) / WIDTH - 0.556;
 		pix->real_im.y = (y - H_HEIGHT) / HEIGHT + 0.53415;
+		draw_screen(pix);
 	}
-	draw_screen(pix);
 	return (0);
 }

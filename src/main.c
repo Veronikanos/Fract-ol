@@ -70,7 +70,7 @@ int				main(int argc, char **argv)
 			draw_screen(pix);
 			mlx_hook(pix->win_ptr, 2, 5, kb_press_key, pix);
 
-	//		mlx_mouse_hook(pix->win_ptr, mouse_zoom, pix);
+			mlx_mouse_hook(pix->win_ptr, mouse_zoom, pix);
 
 			mlx_hook(pix->win_ptr, 6, 8, mouse_julia, pix);
 			mlx_hook(pix->win_ptr, 17, 1L << 17, errors_msg, NULL);

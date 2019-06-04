@@ -25,7 +25,8 @@ void		count_heart(t_pix *pix, int x, int y)
 						fabs(pix->old.x) * pix->old.y * 2 + pix->real_im.y };
 		if ((pix->new.x * pix->new.x + pix->new.y * pix->new.y) > 4)
 			break;
-		pixel_to_buf(pix->buf, x, y, color_red(i, pix->maxIter, pix->col));
+		pixel_to_buf(pix->buf, x, y,
+				color_red(i, pix->maxIter, pix->col));
 	}
 }
 void		count_ship(t_pix *pix, int x, int y)
@@ -79,7 +80,8 @@ void		count_cubic_mandelbrot(t_pix *pix, int x, int y)
 							  + pix->real_im.y };
 		if ((pix->new.x * pix->new.x + pix->new.y * pix->new.y) > 4)
 			break;
-		pixel_to_buf(pix->buf, x, y, get_color_psy(i, pix->maxIter));
+		pixel_to_buf(pix->buf, x, y,
+				get_color_psy(i, pix->maxIter));
 	}
 }
 

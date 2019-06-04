@@ -25,7 +25,7 @@
 # define WIDTH			1024
 # define HEIGHT			768
 # define H_WIDTH		WIDTH / 2.0
-# define H_HEIGHT	    HEIGHT / 2.0
+# define H_HEIGHT		HEIGHT / 2.0
 
 # define COLOR			0xFAEFEF
 //# define ZOOMZ			1
