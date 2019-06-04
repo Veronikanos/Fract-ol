@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/28 20:26:30 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/04 17:12:37 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,16 @@ void			pixel_to_buf(int *buf, int x, int y, int color)
 static void		julia_iter(t_pix *pix, int x, int y)
 {
 	pix->new =
-		(t_vec2) { pix->rate * (x - H_WIDTH_S) / (0.5 * pix->zoom * WIDTH ) + pix->move.x,
-				(y - H_HEIGHT_S) / (0.5 * pix->zoom * HEIGHT) + pix->move.y };
+		(t_vec2) { pix->rate * (x - H_WIDTH) / (0.5 * pix->zoom * WIDTH ) + pix->move.x,
+				(y - H_HEIGHT) / (0.5 * pix->zoom * HEIGHT) + pix->move.y };
 	count_mandelbrot(pix, x, y);
 }
 
 static void		mandelbrot_iter(t_pix *pix, int x, int y)
 {
-	pix->real_im = (t_vec2) {pix->rate * (x - H_WIDTH_S)
+	pix->real_im = (t_vec2) {pix->rate * (x - H_WIDTH)
 				/ (0.5 * pix->zoom * WIDTH) + pix->move.x,
-				(y - H_HEIGHT_S) / (0.5 * pix->zoom * HEIGHT)+ pix->move.y};
+				(y - H_HEIGHT) / (0.5 * pix->zoom * HEIGHT)+ pix->move.y};
 	pix->new = (t_vec2) {0, 0};
 	pix->old = (t_vec2) {0, 0};
 }
@@ -95,7 +95,9 @@ void				draw_screen(t_pix *pix)
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 50, COLOR,
 				   "CHANGE             S");
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 70, COLOR,
-				   "MOVE               NONAME");
+				   "MOVE               ARROWS: LEFT, RIGHT");
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 90, COLOR,
 				   "ZOOM               NONAME");
+	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 110, COLOR,
+				   "RESET              R");
 }

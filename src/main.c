@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:56:21 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/05/28 20:20:25 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/04 18:41:46 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 //t_vec2		    alignment(size_t width, size_t height)
 //{
-//	return ((t_vec2){ H_WIDTH_S / 2.0,
-//                      H_HEIGHT_S / 2.0 });
+//	return ((t_vec2){ H_WIDTH / 2.0,
+//                      H_HEIGHT / 2.0 });
 //}
 
 //t_vec2			reset_zoom(void)
@@ -23,6 +23,7 @@
 //    return ((t_vec2){ 20, 20});
 //}
 //
+
 
 static void		which_one_fract(char **argv, t_pix *pix)
 {
@@ -67,10 +68,11 @@ int				main(int argc, char **argv)
 			init_win(pix);
 			which_one_fract(argv, pix);
 			draw_screen(pix);
-
 			mlx_hook(pix->win_ptr, 2, 5, kb_press_key, pix);
-//			mlx_mouse_hook(pix->win_ptr, mouse_scroll, pix);
-			mlx_hook(pix->win_ptr, 6, 8, mouse_scroll, pix);
+
+	//		mlx_mouse_hook(pix->win_ptr, mouse_zoom, pix);
+
+			mlx_hook(pix->win_ptr, 6, 8, mouse_julia, pix);
 			mlx_hook(pix->win_ptr, 17, 1L << 17, errors_msg, NULL);
 			mlx_loop(pix->mlx_ptr);
 			mlx_destroy_window(pix->mlx_ptr, pix->win_ptr);
