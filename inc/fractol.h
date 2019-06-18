@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:54:23 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/04 18:38:51 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/13 21:19:28 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct			s_pix
 	int 		maxIter;
 	double 		rate;
 	t_vec2		move;
+	t_vec2		offset;
 	t_vec2		new;
 	t_vec2		old;
 	t_vec2		real_im;

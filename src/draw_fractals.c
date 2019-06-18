@@ -6,10 +6,11 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/04 22:37:11 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/11 20:03:55 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
 #include "fractol.h"
 
 static void		clear_img(t_pix *pix)

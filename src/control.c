@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/04 22:00:00 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/13 21:26:05 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int				kb_press_key(int key, t_pix *pix)
 	if (key == DOWN_ARROW)
 		pix->move.y -= 0.05;
 	if (key == PLUS)
-		pix->zoom += 0.05;
+		pix->zoom += 0.005;
 	if (key == MINUS)
-		pix->zoom -= 0.05;
+		pix->zoom -= 0.005;
 	if (key == S)
 		change_reset(pix);
 	if (key == R)
@@ -75,13 +75,20 @@ int				kb_press_key(int key, t_pix *pix)
 
 int				mouse_zoom(int key, int x, int y, t_pix *pix)
 {
+
+	// move???
+	
 	if (key == MOUSE_UP)
 	{
-		pix->zoom += 0.05;
+		pix->zoom *= 1.5;
+		pix->move.x += ((x - H_WIDTH) * H_WIDTH / (pix->zoom * WIDTH) )/1000* 1.5;
+		pix->move.y += ((y - H_HEIGHT) * H_HEIGHT / (pix->zoom * HEIGHT))/1000* 1.5;
 	}
-	if (key == MOUSE_DOWN)
+	else if (key == MOUSE_DOWN)
 	{
-		pix->zoom -= 0.05;
+		pix->zoom *= 0.5;
+		pix->move.x += ((x - H_WIDTH) * H_WIDTH / (pix->zoom * WIDTH))/1000;
+		pix->move.y += ((y - H_HEIGHT) * H_HEIGHT / (pix->zoom * HEIGHT))/1000;
 	}
 	draw_screen(pix);
 	return (0);
