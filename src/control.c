@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/13 21:26:05 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:37:28 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,38 @@ int				kb_press_key(int key, t_pix *pix)
 int				mouse_zoom(int key, int x, int y, t_pix *pix)
 {
 
-	// move???
-	
+	double mouse_re = pix->rate
+					  * (x - H_WIDTH) / (pix->zoom * WIDTH ) + pix->move.x;
+	double mouse_im = (y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y;
+
+
 	if (key == MOUSE_UP)
 	{
+		pix->move.x -= pix->move.x - mouse_re;
+		pix->move.y -= pix->move.y - mouse_im;
 		pix->zoom *= 1.5;
-		pix->move.x += ((x - H_WIDTH) * H_WIDTH / (pix->zoom * WIDTH) )/1000* 1.5;
-		pix->move.y += ((y - H_HEIGHT) * H_HEIGHT / (pix->zoom * HEIGHT))/1000* 1.5;
+		 mouse_re = pix->rate * (x - H_WIDTH) / (pix->zoom * WIDTH ) + pix->move.x;
+		 mouse_im = (y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y;
+
+//		pix->move.x += ((x - H_WIDTH) * H_WIDTH / (pix->zoom * WIDTH)) / 1500 * 1.5;
+//		pix->move.y += ((y - H_HEIGHT) * H_HEIGHT / (pix->zoom * HEIGHT)) /1500 * 1.5;
+
+		pix->move.x += pix->move.x - mouse_re;
+		pix->move.y += pix->move.y - mouse_im;;
 	}
 	else if (key == MOUSE_DOWN)
 	{
+		pix->move.x -= pix->move.x - mouse_re;
+		pix->move.y -= pix->move.y - mouse_im;
 		pix->zoom *= 0.5;
-		pix->move.x += ((x - H_WIDTH) * H_WIDTH / (pix->zoom * WIDTH))/1000;
-		pix->move.y += ((y - H_HEIGHT) * H_HEIGHT / (pix->zoom * HEIGHT))/1000;
+		mouse_re = pix->rate * (x - H_WIDTH) / (pix->zoom * WIDTH ) + pix->move.x;
+		mouse_im = (y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y;
+
+//		pix->move.x += ((x - H_WIDTH) * H_WIDTH / (pix->zoom * WIDTH))/1500 * 1.5;
+//		pix->move.y += ((y - H_HEIGHT) * H_HEIGHT / (pix->zoom * HEIGHT))/1500 * 1.5;
+
+		pix->move.x += pix->move.x - mouse_re;
+		pix->move.y += pix->move.y - mouse_im;;
 	}
 	draw_screen(pix);
 	return (0);

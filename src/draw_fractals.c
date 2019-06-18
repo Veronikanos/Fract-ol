@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/11 20:03:55 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:15:20 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void		mandelbrot_iter(t_pix *pix, int x, int y)
 {
 	pix->real_im = (t_vec2) { pix->rate
 						* (x - H_WIDTH) / (pix->zoom * WIDTH) + pix->move.x,
-						(y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y };
+						(y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y};
 	pix->new = (t_vec2) { 0, 0 };
 	pix->old = (t_vec2) { 0, 0 };
 }
