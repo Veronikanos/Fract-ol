@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/18 17:15:20 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/19 18:58:42 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,46 @@ void			pixel_to_buf(int *buf, int x, int y, int color)
 		buf[y * WIDTH + x] = color;
 }
 
-static void		julia_iter(t_pix *pix, int x, int y)
-{
-	pix->new = (t_vec2) {pix->rate
-					* (x - H_WIDTH) / (pix->zoom * WIDTH ) + pix->move.x,
-					(y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y };
-	count_mandelbrot(pix, x, y);
-}
+//static void		julia_iter(t_pix *pix, int x, int y)
+//{
+//	pix->new =
+//		calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
+//	count_mandelbrot(pix, x, y);
+//}
+//
+//static void		mandelbrot_iter(t_pix *pix, int x, int y)
+//{
+//	pix->real_im =
+//		calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
+//	pix->new = (t_vec2) { 0, 0 };
+//	pix->old = (t_vec2) { 0, 0 };
+//}
 
-static void		mandelbrot_iter(t_pix *pix, int x, int y)
+static void		iter_julia_mand(t_pix *pix, int x, int y)
 {
-	pix->real_im = (t_vec2) { pix->rate
-						* (x - H_WIDTH) / (pix->zoom * WIDTH) + pix->move.x,
-						(y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y};
-	pix->new = (t_vec2) { 0, 0 };
-	pix->old = (t_vec2) { 0, 0 };
+	if (pix->fract_num == 0)
+	{
+		pix->new =
+			calc_real_imag((t_vec2) {x, y}, pix->move, pix->rate, pix->zoom);
+		count_mandelbrot(pix, x, y);
+	}
+	else
+	{
+		pix->real_im =
+			calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
+		pix->new = (t_vec2) { 0, 0 };
+		pix->old = (t_vec2) { 0, 0 };
+		if (pix->fract_num == 1)
+			count_mandelbrot(pix, x, y);
+		else if (pix->fract_num == 2)
+			count_cubic_mandelbrot(pix, x, y);
+		else if (pix->fract_num == 3)
+			count_tricorn(pix, x, y);
+		else if (pix->fract_num == 4)
+			count_ship(pix, x, y);
+		else if (pix->fract_num == 5)
+			count_heart(pix, x, y);
+	}
 }
 
 static void		draw_fract(t_pix *pix)
@@ -64,24 +89,7 @@ static void		draw_fract(t_pix *pix)
 	{
 		x = UINT64_MAX;
 		while (++x < WIDTH)
-		{
-			if (pix->fract_num == 0)
-				julia_iter(pix, x, y);
-			else
-			{
-				mandelbrot_iter(pix, x, y);
-				if (pix->fract_num == 1)
-					count_mandelbrot(pix, x, y);
-				else if (pix->fract_num == 2)
-					count_cubic_mandelbrot(pix, x, y);
-				else if (pix->fract_num == 3)
-					count_tricorn(pix, x, y);
-				else if (pix->fract_num == 4)
-					count_ship(pix, x, y);
-				else if (pix->fract_num == 5)
-					count_heart(pix, x, y);
-			}
-		}
+			iter_julia_mand(pix, x, y);
 	}
 }
 
@@ -94,11 +102,11 @@ void				draw_screen(t_pix *pix)
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 30, COLOR,
 				   "EXIT               ESC");
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 50, COLOR,
-				   "CHANGE             S");
+				   "CHANGE FRACTAL     S");
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 70, COLOR,
 				   "MOVE               ARROWS: LEFT, RIGHT");
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 90, COLOR,
-				   "ZOOM               NONAME");
+				   "ZOOM               MOUSE SCROLL (UP, DOWN)");
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 110, COLOR,
 				   "RESET              R");
 }

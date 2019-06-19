@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:56:21 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/04 18:41:46 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/19 20:51:29 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int				main(int argc, char **argv)
 	t_pix	*pix;
 
 	if (argc != 2)
-		errors_msg(2);
+		errors_msg(1);
 	else
 		{
 			if (!(pix = (t_pix *)malloc(sizeof(t_pix))))

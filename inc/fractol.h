@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:54:23 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/13 21:19:28 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/19 18:30:04 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define HEIGHT			768
 # define H_WIDTH		WIDTH / 2.0
 # define H_HEIGHT		HEIGHT / 2.0
+# define MIN_ZOOM		0.001
+# define MAX_ZOOM		200.0
+# define N_KEYS			4
 
 # define COLOR			0xFAEFEF
 //# define ZOOMZ			1
@@ -48,11 +51,11 @@ typedef struct			s_vector2
 	double	y;
 }						t_vec2;
 
-typedef struct			s_mouse
-{
-	int		x;
-	int		y;
-}						t_mouse;
+//typedef struct			s_mouse
+//{
+//	int		x;
+//	int		y;
+//}						t_mouse;
 
 
 typedef struct			s_color
@@ -72,8 +75,7 @@ typedef struct			s_pix
 	t_vec2		new;
 	t_vec2		old;
 	t_vec2		real_im;
-
-	t_mouse		mouse;
+	t_vec2		mouse;
 
 
 //	t_draw		d_xy;
@@ -89,12 +91,6 @@ typedef struct			s_pix
 	int			size_line;
 	int			endian;
 }						t_pix;
-//
-//typedef struct			s_lines
-//{
-//	char				*str;
-//	struct s_lines		*next;
-//}						t_lines;
 
 int				errors_msg(int err);
 int				kb_press_key(int key, t_pix *pix);
@@ -112,10 +108,13 @@ void			count_ship(t_pix *pix, int x, int y);
 void			count_heart(t_pix *pix, int x, int y);
 void			init_burning_ship(t_pix *pix);
 void			init_heart(t_pix *pix);
+void			color_scheme_array(void (*keys_array[N_KEYS])(t_pix *pix));
 unsigned int	color_breeze(int i, int maxIter, t_color col);
 unsigned int	get_color_psy(int i, int maxIter);
 unsigned int	color_flame(int i, int maxIter, t_color col);
 unsigned int	color_burning_ship(int i, int maxIter, t_color col);
 unsigned int	color_red(int i, int maxIter, t_color col);
+t_vec2			calc_real_imag(t_vec2 coord, t_vec2 move,
+					double rate, double zoom);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/18 17:37:28 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/19 18:49:35 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,48 +66,30 @@ int				kb_press_key(int key, t_pix *pix)
 	return (0);
 }
 
-//int 		mouse(int key, int x, int y, t_pix *pix)
-//{
-//	if (key == 4 || key == 5)
-//		mouse_zoom(key, x, y, pix);
-//}
-
+t_vec2			calc_real_imag(t_vec2 coord, t_vec2 move,
+								double rate, double zoom)
+{
+	return ((t_vec2) { rate * (coord.x - H_WIDTH) / (zoom * WIDTH ) + move.x,
+							(coord.y - H_HEIGHT) / (zoom * HEIGHT) + move.y });
+}
 
 int				mouse_zoom(int key, int x, int y, t_pix *pix)
 {
-
-	double mouse_re = pix->rate
-					  * (x - H_WIDTH) / (pix->zoom * WIDTH ) + pix->move.x;
-	double mouse_im = (y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y;
-
-
-	if (key == MOUSE_UP)
+	pix->mouse =
+		calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
+	if ((key == MOUSE_UP || key == MOUSE_DOWN) &&
+	(pix->zoom >= MIN_ZOOM && pix->zoom <= MAX_ZOOM))
 	{
-		pix->move.x -= pix->move.x - mouse_re;
-		pix->move.y -= pix->move.y - mouse_im;
-		pix->zoom *= 1.5;
-		 mouse_re = pix->rate * (x - H_WIDTH) / (pix->zoom * WIDTH ) + pix->move.x;
-		 mouse_im = (y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y;
-
-//		pix->move.x += ((x - H_WIDTH) * H_WIDTH / (pix->zoom * WIDTH)) / 1500 * 1.5;
-//		pix->move.y += ((y - H_HEIGHT) * H_HEIGHT / (pix->zoom * HEIGHT)) /1500 * 1.5;
-
-		pix->move.x += pix->move.x - mouse_re;
-		pix->move.y += pix->move.y - mouse_im;;
-	}
-	else if (key == MOUSE_DOWN)
-	{
-		pix->move.x -= pix->move.x - mouse_re;
-		pix->move.y -= pix->move.y - mouse_im;
-		pix->zoom *= 0.5;
-		mouse_re = pix->rate * (x - H_WIDTH) / (pix->zoom * WIDTH ) + pix->move.x;
-		mouse_im = (y - H_HEIGHT) / (pix->zoom * HEIGHT) + pix->move.y;
-
-//		pix->move.x += ((x - H_WIDTH) * H_WIDTH / (pix->zoom * WIDTH))/1500 * 1.5;
-//		pix->move.y += ((y - H_HEIGHT) * H_HEIGHT / (pix->zoom * HEIGHT))/1500 * 1.5;
-
-		pix->move.x += pix->move.x - mouse_re;
-		pix->move.y += pix->move.y - mouse_im;;
+		pix->move.x -= pix->move.x - pix->mouse.x;
+		pix->move.y -= pix->move.y - pix->mouse.y;
+		if (key == MOUSE_UP)
+			pix->zoom *= 1.5;
+		else
+			pix->zoom *= 0.5;
+		pix->mouse =
+			calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
+		pix->move.x += pix->move.x - pix->mouse.x;
+		pix->move.y += pix->move.y - pix->mouse.y;
 	}
 	draw_screen(pix);
 	return (0);
