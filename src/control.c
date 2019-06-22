@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/22 22:44:14 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/22 22:51:20 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ void		change_reset(t_pix *pix)
 		init_burning_ship(pix);
 	else if (pix->fract_num == 5)
 		init_heart(pix);
-	draw_screen(pix);
-}
-
-static void		change_color_scheme(t_pix *pix)
-{
-	pix->color = ++pix->color % 5;
 	draw_screen(pix);
 }
 
@@ -61,15 +55,9 @@ int				kb_press_key(int key, t_pix *pix) {
 		change_reset(pix);
 	}
 	if (key == C)
-		change_color_scheme(pix);
+		pix->color = ++pix->color % 5;
 	if (key == R)
-	{
-//		if (pix->fract_num == 0)
-//			pix->fract_num = 5;
-//		else
-//			pix->fract_num--;
 		change_reset(pix);
-	}
 	draw_screen(pix);
 	return (0);
 }
