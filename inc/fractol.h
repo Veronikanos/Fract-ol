@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:54:23 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/19 18:30:04 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/22 21:40:18 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 
 enum					e_keys
 {
-	ESC = 53, LEFT_ARROW = 123, RIGHT_ARROW = 124, R = 15,
+	ESC = 53, LEFT_ARROW = 123, RIGHT_ARROW = 124, R = 15, C = 8,
 	I = 34, UP_ARROW = 126, DOWN_ARROW = 125, PLUS = 69, MINUS = 78,
 	S = 1, MOUSE_UP = 4, MOUSE_DOWN = 5,
 //	SIX = 88, FIVE = 87, THREE = 85,
@@ -76,6 +76,7 @@ typedef struct			s_pix
 	t_vec2		old;
 	t_vec2		real_im;
 	t_vec2		mouse;
+	int			color;
 
 
 //	t_draw		d_xy;
@@ -108,7 +109,6 @@ void			count_ship(t_pix *pix, int x, int y);
 void			count_heart(t_pix *pix, int x, int y);
 void			init_burning_ship(t_pix *pix);
 void			init_heart(t_pix *pix);
-void			color_scheme_array(void (*keys_array[N_KEYS])(t_pix *pix));
 unsigned int	color_breeze(int i, int maxIter, t_color col);
 unsigned int	get_color_psy(int i, int maxIter);
 unsigned int	color_flame(int i, int maxIter, t_color col);
@@ -116,5 +116,6 @@ unsigned int	color_burning_ship(int i, int maxIter, t_color col);
 unsigned int	color_red(int i, int maxIter, t_color col);
 t_vec2			calc_real_imag(t_vec2 coord, t_vec2 move,
 					double rate, double zoom);
+void		change_reset(t_pix *pix);
 
 #endif

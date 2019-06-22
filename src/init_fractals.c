@@ -19,6 +19,9 @@ void	init_heart(t_pix *pix)
 	pix->zoom = 0.25;
 	pix->move = (t_vec2){ 0, 0 };
 	pix->maxIter = 250;
+
+	pix->color = 0;
+
 	pix->rate = (double)(WIDTH) / HEIGHT;
 }
 void	init_burning_ship(t_pix *pix)
@@ -28,6 +31,7 @@ void	init_burning_ship(t_pix *pix)
 	pix->zoom = 0.25;
 	pix->move = (t_vec2){ 0, 0 };
 	pix->maxIter = 471;
+	pix->color = 1;
 	pix->rate = (double)(WIDTH) / HEIGHT;
 }
 
@@ -39,6 +43,7 @@ void	init_julia(t_pix *pix)
 	pix->zoom = 0.25;
 	pix->move = (t_vec2){ 0, 0 };
 	pix->maxIter = 50;
+	pix->color = 2;
 	pix->rate = (double)(WIDTH) / HEIGHT;
 }
 
@@ -49,6 +54,7 @@ void	init_cubic_mandelbrot(t_pix *pix)
 	pix->zoom = 0.25;
 	pix->move = (t_vec2){ 0, 0 };
 	pix->maxIter = 174;
+	pix->color = 3;
 	pix->rate = (double)(WIDTH) / HEIGHT;
 }
 
@@ -59,5 +65,6 @@ void	init_mandelbrot(t_pix *pix)
 	pix->zoom = 0.25;
 	pix->move = (t_vec2){ 0, 0 };
 	pix->maxIter = 28;
+	pix->color = 4;
 	pix->rate = (double)(WIDTH) / HEIGHT;
 }

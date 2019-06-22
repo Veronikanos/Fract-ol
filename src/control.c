@@ -6,16 +6,14 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/19 18:49:35 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/22 22:44:14 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void		change_reset(t_pix *pix)
+void		change_reset(t_pix *pix)
 {
-	pix->fract_num++;
-	pix->fract_num = pix->fract_num % 6;
 	if (pix->fract_num == 0)
 		init_julia(pix);
 	else if (pix->fract_num == 1)
@@ -31,8 +29,13 @@ static void		change_reset(t_pix *pix)
 	draw_screen(pix);
 }
 
-int				kb_press_key(int key, t_pix *pix)
+static void		change_color_scheme(t_pix *pix)
 {
+	pix->color = ++pix->color % 5;
+	draw_screen(pix);
+}
+
+int				kb_press_key(int key, t_pix *pix) {
 	if (key == ESC)
 //	{
 //		system("leaks -q fractol");
@@ -53,13 +56,18 @@ int				kb_press_key(int key, t_pix *pix)
 	if (key == MINUS)
 		pix->zoom -= 0.005;
 	if (key == S)
+	{
+		pix->fract_num = ++pix->fract_num % 6;
 		change_reset(pix);
+	}
+	if (key == C)
+		change_color_scheme(pix);
 	if (key == R)
 	{
-		if (pix->fract_num == 0)
-			pix->fract_num = 5;
-		else
-			pix->fract_num--;
+//		if (pix->fract_num == 0)
+//			pix->fract_num = 5;
+//		else
+//			pix->fract_num--;
 		change_reset(pix);
 	}
 	draw_screen(pix);
@@ -99,8 +107,8 @@ int				mouse_julia(int x, int y, t_pix *pix)
 {
 	if (pix->fract_num == 0)
 	{
-		pix->real_im.x = (x - H_WIDTH) / WIDTH - 0.556;
-		pix->real_im.y = (y - H_HEIGHT) / HEIGHT + 0.53415;
+		pix->real_im.x = 10 * ((x - H_WIDTH) / WIDTH - 0.556) + 1.7;
+		pix->real_im.y = 10 * ((y - H_HEIGHT) / HEIGHT + 0.53415) + 1.0;
 		draw_screen(pix);
 	}
 	return (0);

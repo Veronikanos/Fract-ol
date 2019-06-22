@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:56:21 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/19 20:51:29 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/22 22:44:14 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,13 @@
 
 static void		which_one_fract(char **argv, t_pix *pix)
 {
-	if (ft_strcmp(argv[1], "Julia") == 0 && (pix->fract_num = 0) == 0)
-		init_julia(pix);
-	else if (ft_strcmp(argv[1], "Mandelbrot") == 0 && (pix->fract_num = 1))
-		init_mandelbrot(pix);
-	else if (ft_strcmp(argv[1], "Cubic_mandelbrot") == 0 && (pix->fract_num = 2))
-		init_cubic_mandelbrot(pix);
-	else if (ft_strcmp(argv[1], "Tricorn") == 0 && (pix->fract_num = 3))
-		init_mandelbrot(pix);
-	else if (ft_strcmp(argv[1], "Burning_ship") == 0 && (pix->fract_num = 4))
-		init_mandelbrot(pix);
-	else if (ft_strcmp(argv[1], "Heart") == 0 && (pix->fract_num = 5))
-		init_mandelbrot(pix);
+	if ((ft_strcmp(argv[1], "Julia") == 0 && (pix->fract_num = 0) == 0)
+	|| (ft_strcmp(argv[1], "Mandelbrot") == 0 && (pix->fract_num = 1))
+	|| (ft_strcmp(argv[1], "Cubic_mandelbrot") == 0 && (pix->fract_num = 2))
+	|| (ft_strcmp(argv[1], "Tricorn") == 0 && (pix->fract_num = 3))
+	|| (ft_strcmp(argv[1], "Burning_ship") == 0 && (pix->fract_num = 4))
+	|| (ft_strcmp(argv[1], "Heart") == 0 && (pix->fract_num = 5)))
+		change_reset(pix);
 	else
 		errors_msg(2);
 }
