@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 13:24:34 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/18 16:51:42 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/24 19:12:13 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	init_heart(t_pix *pix)
 	pix->zoom = 0.25;
 	pix->move = (t_vec2){ 0, 0 };
 	pix->maxIter = 250;
-
 	pix->color = 0;
-
 	pix->rate = (double)(WIDTH) / HEIGHT;
 }
 void	init_burning_ship(t_pix *pix)

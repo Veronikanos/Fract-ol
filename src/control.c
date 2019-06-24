@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/22 22:51:20 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/24 20:31:55 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,6 @@ int				kb_press_key(int key, t_pix *pix) {
 		pix->move.y += 0.05;
 	if (key == DOWN_ARROW)
 		pix->move.y -= 0.05;
-	if (key == PLUS)
-		pix->zoom += 0.005;
-	if (key == MINUS)
-		pix->zoom -= 0.005;
 	if (key == S)
 	{
 		pix->fract_num = ++pix->fract_num % 6;
@@ -72,31 +68,27 @@ t_vec2			calc_real_imag(t_vec2 coord, t_vec2 move,
 int				mouse_zoom(int key, int x, int y, t_pix *pix)
 {
 	pix->mouse =
-		calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
-	if ((key == MOUSE_UP || key == MOUSE_DOWN) &&
-	(pix->zoom >= MIN_ZOOM && pix->zoom <= MAX_ZOOM))
-	{
-		pix->move.x -= pix->move.x - pix->mouse.x;
-		pix->move.y -= pix->move.y - pix->mouse.y;
-		if (key == MOUSE_UP)
-			pix->zoom *= 1.5;
-		else
-			pix->zoom *= 0.5;
-		pix->mouse =
-			calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
-		pix->move.x += pix->move.x - pix->mouse.x;
-		pix->move.y += pix->move.y - pix->mouse.y;
-	}
+			calc_real_imag((t_vec2) { x, y }, pix->move, pix->rate, pix->zoom);
+	pix->move.x -= pix->move.x - pix->mouse.x;
+	pix->move.y -= pix->move.y - pix->mouse.y;
+	if (key == MOUSE_UP && pix->zoom <= MAX_ZOOM)
+		pix->zoom *= 1.5;
+	else if (key == MOUSE_DOWN && pix->zoom >= MIN_ZOOM)
+		pix->zoom *= 0.5;
+	pix->mouse =
+			calc_real_imag((t_vec2) { x, y }, pix->move, pix->rate, pix->zoom);
+	pix->move.x += pix->move.x - pix->mouse.x;
+	pix->move.y += pix->move.y - pix->mouse.y;
 	draw_screen(pix);
 	return (0);
 }
 
 int				mouse_julia(int x, int y, t_pix *pix)
 {
-	if (pix->fract_num == 0)
+	if (pix->fract_num == 0 && pix->zoom == 0.25)
 	{
-		pix->real_im.x = 10 * ((x - H_WIDTH) / WIDTH - 0.556) + 1.7;
-		pix->real_im.y = 10 * ((y - H_HEIGHT) / HEIGHT + 0.53415) + 1.0;
+		pix->real_im.x = 10 * ((x - H_WIDTH) / WIDTH - 0.556) + CENTERING;
+		pix->real_im.y = 10 * ((y - H_HEIGHT) / HEIGHT + 0.53415) - CENTERING;
 		draw_screen(pix);
 	}
 	return (0);

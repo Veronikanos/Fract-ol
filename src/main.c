@@ -6,24 +6,11 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:56:21 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/22 22:44:14 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/22 22:48:58 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-//t_vec2		    alignment(size_t width, size_t height)
-//{
-//	return ((t_vec2){ H_WIDTH / 2.0,
-//                      H_HEIGHT / 2.0 });
-//}
-
-//t_vec2			reset_zoom(void)
-//{
-//    return ((t_vec2){ 20, 20});
-//}
-//
-
 
 static void		which_one_fract(char **argv, t_pix *pix)
 {

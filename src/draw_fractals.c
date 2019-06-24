@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/19 18:58:42 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/23 16:19:36 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,6 @@ void			pixel_to_buf(int *buf, int x, int y, int color)
 	if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
 		buf[y * WIDTH + x] = color;
 }
-
-//static void		julia_iter(t_pix *pix, int x, int y)
-//{
-//	pix->new =
-//		calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
-//	count_mandelbrot(pix, x, y);
-//}
-//
-//static void		mandelbrot_iter(t_pix *pix, int x, int y)
-//{
-//	pix->real_im =
-//		calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
-//	pix->new = (t_vec2) { 0, 0 };
-//	pix->old = (t_vec2) { 0, 0 };
-//}
 
 static void		iter_julia_mand(t_pix *pix, int x, int y)
 {
@@ -104,9 +89,13 @@ void				draw_screen(t_pix *pix)
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 50, COLOR,
 				   "CHANGE FRACTAL     S");
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 70, COLOR,
-				   "MOVE               ARROWS: LEFT, RIGHT");
+				   "CHANGE COLOR       C");
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 90, COLOR,
 				   "ZOOM               MOUSE SCROLL (UP, DOWN)");
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 110, COLOR,
+				   "MOVE               ARROWS: LEFT, RIGHT");
+	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 130, COLOR,
+				   "ADD ITERATIONS     I");
+	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 150, COLOR,
 				   "RESET              R");
 }
