@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/23 16:19:36 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/24 21:44:45 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ static void		iter_julia_mand(t_pix *pix, int x, int y)
 	}
 }
 
-static void		draw_fract(t_pix *pix)
+static void		draw_part(t_pix *pix, size_t y_from, size_t y_to)
 {
 	size_t x;
 	size_t y;
 
-	y = UINT64_MAX;
-	while (++y < HEIGHT)
+	y = y_from;
+	while (++y < y_to)
 	{
 		x = UINT64_MAX;
 		while (++x < WIDTH)
@@ -78,10 +78,67 @@ static void		draw_fract(t_pix *pix)
 	}
 }
 
+static void		draw_n_parts(t_pix *pix, size_t n_of_sectors)
+{
+	int i;
+
+	i = 0;
+	while( i < n_of_sectors) {
+//		pid_t newp;
+//
+//		newp = fork();
+//		if (newp < 0)
+//			errors_msg(1);
+//		if (newp == 0)
+//		{
+			size_t shift = (HEIGHT/n_of_sectors) * i;
+			draw_part(pix, UINT64_MAX + shift, (HEIGHT/n_of_sectors) + shift);
+//		}
+		i++;
+	}
+
+}
+
+
+void draw_fork(t_pix *pix, size_t from, size_t to) {
+	pid_t	newp;
+	newp = fork();
+	if (newp < 0)
+		errors_msg(5);
+	if (newp == 0) {
+		write(1, "Drawing....\n", 12);
+		draw_part(pix, from, to);
+		return;
+	}
+
+}
+
+
+static void		draw_fract(t_pix *pix)
+{
+	size_t  n_of_sectors;
+	int i;
+	size_t shift;
+
+	i = 1;
+	n_of_sectors = 2;
+//	draw_n_parts(pix, 5);
+
+	shift = (HEIGHT/n_of_sectors) * i;
+	draw_fork(pix, UINT64_MAX + shift, (HEIGHT/n_of_sectors) + shift);
+	while( i < n_of_sectors) {
+		shift = (HEIGHT/n_of_sectors) * i;
+		draw_fork(pix, UINT64_MAX + shift, (HEIGHT/n_of_sectors) + shift);
+		i++;
+	}
+
+}
+
 void				draw_screen(t_pix *pix)
 {
 	mlx_clear_window(pix->mlx_ptr, pix->win_ptr);
 		draw_fract(pix);
+//	errors_msg(5);
 	mlx_put_image_to_window(pix->mlx_ptr, pix->win_ptr, pix->img_ptr, 0, 0);
 	clear_img(pix);
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 30, COLOR,
