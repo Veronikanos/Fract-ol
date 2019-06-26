@@ -85,10 +85,12 @@ int				mouse_zoom(int key, int x, int y, t_pix *pix)
 
 int				mouse_julia(int x, int y, t_pix *pix)
 {
+	t_vec2			real_im;
+
 	if (pix->fract_num == 0 && pix->zoom == 0.25)
 	{
-		pix->real_im.x = 10 * ((x - H_WIDTH) / WIDTH - 0.556) + CENTERING;
-		pix->real_im.y = 10 * ((y - H_HEIGHT) / HEIGHT + 0.53415) - CENTERING;
+		real_im.x = 10 * ((x - H_WIDTH) / WIDTH - 0.556) + CENTERING;
+		real_im.y = 10 * ((y - H_HEIGHT) / HEIGHT + 0.53415) - CENTERING;
 		draw_screen(pix);
 	}
 	return (0);

@@ -37,7 +37,8 @@ void	init_julia(t_pix *pix)
 {
 	if (!pix)
 		errors_msg(5);
-	pix->real_im = (t_vec2){ -0.556, 0.53415 };
+//	pix->real_im = (t_vec2){ -0.556, 0.53415 };
+	pix->julia_key = 0;
 	pix->zoom = 0.25;
 	pix->move = (t_vec2){ 0, 0 };
 	pix->maxIter = 50;

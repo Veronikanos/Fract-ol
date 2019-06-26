@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/24 21:55:45 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/26 22:12:39 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,145 +37,100 @@ void			pixel_to_buf(int *buf, int x, int y, int color)
 		buf[y * WIDTH + x] = color;
 }
 
-static void		iter_julia_mand(t_pix *pix, int x, int y)
-{
-	if (pix->fract_num == 0)
-	{
-		pix->new =
-			calc_real_imag((t_vec2) {x, y}, pix->move, pix->rate, pix->zoom);
-		count_mandelbrot(pix, x, y);
-	}
-	else
-	{
-		pix->real_im =
-			calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
-		pix->new = (t_vec2) { 0, 0 };
-		pix->old = (t_vec2) { 0, 0 };
-		if (pix->fract_num == 1)
-			count_mandelbrot(pix, x, y);
-		else if (pix->fract_num == 2)
-			count_cubic_mandelbrot(pix, x, y);
-		else if (pix->fract_num == 3)
-			count_tricorn(pix, x, y);
-		else if (pix->fract_num == 4)
-			count_ship(pix, x, y);
-		else if (pix->fract_num == 5)
-			count_heart(pix, x, y);
-	}
-}
-
-static void		draw_part(t_pix *pix, size_t y_from, size_t y_to)
+static void		choose_fract(t_pix *pix, size_t start, size_t end)
 {
 	size_t x;
 	size_t y;
 
-	y = y_from;
-	while (++y < y_to)
+	y = start;
+	while (++y < end)
 	{
 		x = UINT64_MAX;
 		while (++x < WIDTH)
-			iter_julia_mand(pix, x, y);
+		{
+			if (pix->fract_num == 0 || pix->fract_num == 1)
+				count_mandelbrot(pix, x, y);
+			else if (pix->fract_num == 2)
+				count_cubic_mandelbrot(pix, x, y);
+			else if (pix->fract_num == 3)
+				count_tricorn(pix, x, y);
+			else if (pix->fract_num == 4)
+				count_ship(pix, x, y);
+			else if (pix->fract_num == 5)
+				count_heart(pix, x, y);
+		}
 	}
 }
 
-//static void		draw_n_parts(t_pix *pix, size_t n_of_sectors)
-//{
-//	int i;
-//
-//	i = 0;
-//	while( i < n_of_sectors) {
-////		pid_t newp;
-////
-////		newp = fork();
-////		if (newp < 0)
-////			errors_msg(1);
-////		if (newp == 0)
-////		{
-//			size_t shift = (HEIGHT/n_of_sectors) * i;
-//			draw_part(pix, UINT64_MAX + shift, (HEIGHT/n_of_sectors) + shift);
-////		}
-//		i++;
-//	}
-//
-//}
-
-
-//void draw_fork(t_pix *pix, size_t from, size_t to) {
-//	pid_t	newp;
-//	newp = fork();
-//	if (newp < 0)
-//		errors_msg(5);
-//	if (newp == 0) {
-//		write(1, "Drawing....\n", 12);
-//		draw_part(pix, from, to);
-//		return;
-//	}
-//
-//}
-
-
-//static void		draw_fract(t_pix *pix)
-//{
-//	size_t  n_of_sectors;
-//	int i;
-//	size_t shift;
-//
-//	i = 1;
-//	n_of_sectors = 2;
-////	draw_n_parts(pix, 5);
-//
-//	shift = (HEIGHT/n_of_sectors) * i;
-//	draw_fork(pix, UINT64_MAX + shift, (HEIGHT/n_of_sectors) + shift);
-//	while( i < n_of_sectors) {
-//		shift = (HEIGHT/n_of_sectors) * i;
-//		draw_fork(pix, UINT64_MAX + shift, (HEIGHT/n_of_sectors) + shift);
-//		i++;
-//	}
-//
-//}
-
-void				draw_fork_screen(t_pix *pix, int i, size_t n_of_sectors)
+static void			*draw_threads(void *thread_data)
 {
-	pid_t	newp;
 	size_t shift;
+	size_t offset;
+//	size_t num;
+	t_pix *pix;
+	int i;
 
-	newp = fork();
-	if (newp < 0)
-		errors_msg(4);
-	if (newp > 0)
-	{
-		mlx_clear_window(pix->mlx_ptr, pix->win_ptr);
-		shift = (HEIGHT/n_of_sectors) * i;
-		draw_part(pix, UINT64_MAX + shift, (HEIGHT/n_of_sectors) + shift);
-//	errors_msg(5);
-		mlx_put_image_to_window(pix->mlx_ptr, pix->win_ptr, pix->img_ptr, 0, 0);
-		clear_img(pix);
-		mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 30, COLOR,
-					   "EXIT               ESC");
-		mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 50, COLOR,
-					   "CHANGE FRACTAL     S");
-		mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 70, COLOR,
-					   "CHANGE COLOR       C");
-		mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 90, COLOR,
-					   "ZOOM               MOUSE SCROLL (UP, DOWN)");
-		mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 110, COLOR,
-					   "MOVE               ARROWS: LEFT, RIGHT");
-		mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 130, COLOR,
-					   "ADD ITERATIONS     I");
-		mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 150, COLOR,
-					   "RESET              R");
-	}
-}
-
-void draw_screen(t_pix *pix) {
-	int i ;
-	size_t n_forks;
+	shift = ((t_threads *) thread_data)->shift;
+	pix = ((t_threads *) thread_data)->pix;
 
 	i = 0;
-	n_forks = 3;
-	while (i < n_forks) {
-		draw_fork_screen(pix, i, 3);
+	while(i < THREADS)
+	{
+		offset = shift * i;
+		choose_fract(pix, UINT64_MAX + offset, shift + offset);
 		i++;
 	}
+	return (NULL);
+}
 
+static void			create_threads(t_pix *pix)
+{
+	size_t			num;
+	t_threads		*part_arr;
+	pthread_t		*threads_arr;
+
+
+	if (!(part_arr = (t_threads *)malloc(THREADS * sizeof(t_threads))))
+		return ;
+	if (!(threads_arr = (pthread_t *)malloc(THREADS * sizeof(pthread_t))))
+	{
+		free(part_arr);
+		return ;
+	}
+	num = UINT64_MAX;
+	while (++num < THREADS)
+	{
+		part_arr[num] = (t_threads){ pix, HEIGHT / THREADS };
+		pthread_create(&threads_arr[num], NULL, draw_threads, &part_arr[num]);
+	}
+	num = UINT64_MAX;
+	while (++num < THREADS)
+	{
+		pthread_join(threads_arr[num], NULL);
+	}
+	free(part_arr);
+	free(threads_arr);
+}
+
+void				draw_screen(t_pix *pix)
+{
+	mlx_clear_window(pix->mlx_ptr, pix->win_ptr);
+	create_threads(pix);
+//	draw_fract(pix);
+	mlx_put_image_to_window(pix->mlx_ptr, pix->win_ptr, pix->img_ptr, 0, 0);
+	clear_img(pix);
+	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 30, COLOR,
+				   "EXIT               ESC");
+	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 50, COLOR,
+				   "CHANGE FRACTAL     S");
+	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 70, COLOR,
+				   "CHANGE COLOR       C");
+	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 90, COLOR,
+				   "ZOOM               MOUSE SCROLL (UP, DOWN)");
+	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 110, COLOR,
+				   "MOVE               ARROWS: LEFT, RIGHT");
+	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 130, COLOR,
+				   "ADD ITERATIONS     I");
+	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 150, COLOR,
+				   "RESET              R");
 }

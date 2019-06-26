@@ -13,6 +13,6 @@ add_executable(${CMAKE_PROJECT_NAME}
                 ${SOURCES} src/draw_fractals.c src/control.c src/color.c src/init_fractals.c src/count_fractals.c src/choose_color_scheme.c)
 #-Wall -Wextra -Werror
 #set(GCC_COVERAGE_COMPILE_FLAGS "-fsanitize=\"address\" -g -fno-omit-frame-pointer")
-set(GCC_COVERAGE_COMPILE_FLAGS "-march=native -Ofast")
+#set(GCC_COVERAGE_COMPILE_FLAGS "-march=native -Ofast")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
-target_link_libraries(${CMAKE_PROJECT_NAME} ft "-lmlx -framework OpenGL -framework AppKit")
+target_link_libraries(${CMAKE_PROJECT_NAME} ft "-Ipthreads -lmlx -framework OpenGL -framework AppKit")
