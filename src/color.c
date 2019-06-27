@@ -47,7 +47,7 @@ unsigned int	color_red(int i, int maxIter, t_color col)
 	return ((col.R << 16) + (col.G << 8) + col.B);
 }
 
-unsigned int	get_color_psy(int i, int maxIter)
+unsigned int	color_psy(int i, int maxIter)
 {
 	if (i == maxIter)
 		return (0);

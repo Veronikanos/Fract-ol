@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/24 20:31:55 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/27 22:16:30 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,10 @@ int				mouse_zoom(int key, int x, int y, t_pix *pix)
 
 int				mouse_julia(int x, int y, t_pix *pix)
 {
+	pix->julia_move = 0;
 	if (pix->fract_num == 0 && pix->zoom == 0.25)
 	{
+		pix->julia_move = 1;
 		pix->real_im.x = 10 * ((x - H_WIDTH) / WIDTH - 0.556) + CENTERING;
 		pix->real_im.y = 10 * ((y - H_HEIGHT) / HEIGHT + 0.53415) - CENTERING;
 		draw_screen(pix);

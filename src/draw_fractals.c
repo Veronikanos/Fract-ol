@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/23 16:19:36 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/27 21:57:55 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,51 +37,37 @@ void			pixel_to_buf(int *buf, int x, int y, int color)
 		buf[y * WIDTH + x] = color;
 }
 
-static void		iter_julia_mand(t_pix *pix, int x, int y)
-{
-	if (pix->fract_num == 0)
-	{
-		pix->new =
-			calc_real_imag((t_vec2) {x, y}, pix->move, pix->rate, pix->zoom);
-		count_mandelbrot(pix, x, y);
-	}
-	else
-	{
-		pix->real_im =
-			calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
-		pix->new = (t_vec2) { 0, 0 };
-		pix->old = (t_vec2) { 0, 0 };
-		if (pix->fract_num == 1)
-			count_mandelbrot(pix, x, y);
-		else if (pix->fract_num == 2)
-			count_cubic_mandelbrot(pix, x, y);
-		else if (pix->fract_num == 3)
-			count_tricorn(pix, x, y);
-		else if (pix->fract_num == 4)
-			count_ship(pix, x, y);
-		else if (pix->fract_num == 5)
-			count_heart(pix, x, y);
-	}
-}
-
-static void		draw_fract(t_pix *pix)
+void		choose_fract(t_pix *pix, size_t start, size_t end)
 {
 	size_t x;
 	size_t y;
 
-	y = UINT64_MAX;
-	while (++y < HEIGHT)
+	y = start;
+	while (++y < end)
 	{
 		x = UINT64_MAX;
 		while (++x < WIDTH)
-			iter_julia_mand(pix, x, y);
+		{
+			if (pix->fract_num == 0)
+				count_julia(pix, x, y);
+			else  if (pix->fract_num == 1)
+				count_mandelbrot(pix, x, y);
+			else if (pix->fract_num == 2)
+				count_cubic_mandelbrot(pix, x, y);
+			else if (pix->fract_num == 3)
+				count_tricorn(pix, x, y);
+			else if (pix->fract_num == 4)
+				count_ship(pix, x, y);
+			else if (pix->fract_num == 5)
+				count_heart(pix, x, y);
+		}
 	}
 }
 
 void				draw_screen(t_pix *pix)
 {
 	mlx_clear_window(pix->mlx_ptr, pix->win_ptr);
-		draw_fract(pix);
+	create_threads(pix);
 	mlx_put_image_to_window(pix->mlx_ptr, pix->win_ptr, pix->img_ptr, 0, 0);
 	clear_img(pix);
 	mlx_string_put(pix->mlx_ptr, pix->win_ptr, 30, 30, COLOR,

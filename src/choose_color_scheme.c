@@ -21,7 +21,7 @@ unsigned int		chose_color(size_t i, int maxIter, t_color col, int color)
 	else if (color == 2)
 		return (color_flame(i, maxIter, col));
 	else if (color == 3)
-		return (get_color_psy(i, maxIter));
+		return (color_psy(i, maxIter));
 	else if (color == 4)
 		return (color_breeze(i, maxIter, col));
 	return (0);
