@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 17:00:02 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/27 22:30:15 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/27 22:27:44 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void		count_heart(t_pix *pix, int x, int y)
 	while (++i <= pix->maxIter)
 	{
 		old = (t_vec2){ new.x, new.y };
-		new = (t_vec2) { old.x * old.x - new.y * new.y + real_im.x,
+		new = (t_vec2) { old.x * old.x - new.y * new.y
+						+ real_im.x,
 						fabs(old.x) * old.y * 2 + real_im.y };
 		if ((new.x * new.x + new.y * new.y) > 4)
 			break;
