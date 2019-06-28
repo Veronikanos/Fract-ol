@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 17:00:02 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/27 22:27:44 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/28 22:57:14 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@ void		count_heart(t_pix *pix, int x, int y)
 	t_vec2			new;
 	t_vec2			old;
 	t_vec2			real_im;
+	int				num;
 
-	real_im =
-			calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
+	real_im = calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
 	new = (t_vec2) { 0, 0 };
-	old = (t_vec2) { 0, 0 };
+	num = pix->fract_num == 5 ? 2 : -2;
 	i = UINT64_MAX;
 	while (++i <= pix->maxIter)
 	{
 		old = (t_vec2){ new.x, new.y };
-		new = (t_vec2) { old.x * old.x - new.y * new.y
-						+ real_im.x,
-						fabs(old.x) * old.y * 2 + real_im.y };
+		new = (t_vec2) { old.x * old.x - new.y * new.y + real_im.x,
+						fabs(old.x) * old.y * num + real_im.y };
 		if ((new.x * new.x + new.y * new.y) > 4)
 			break;
-		pixel_to_buf(pix->buf, x, y, chose_color(i, pix->maxIter, pix->col, pix->color));
+		pixel_to_buf(pix->buf, x, y,
+					chose_color(i, pix->maxIter, pix->col, pix->color));
 	}
 }
 
@@ -46,17 +46,16 @@ void		count_ship(t_pix *pix, int x, int y)
 	real_im =
 			calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
 	new = (t_vec2) { 0, 0 };
-	old = (t_vec2) { 0, 0 };
 	i = UINT64_MAX;
 	while (++i <= pix->maxIter)
 	{
 		old = (t_vec2){ new.x, new.y };
-		new = (t_vec2) { old.x * old.x - new.y * new.y
-						+ real_im.x,
+		new = (t_vec2) { old.x * old.x - new.y * new.y + real_im.x,
 						fabs(old.x * old.y) * 2 + real_im.y };
 		if ((new.x * new.x + new.y * new.y) > 4)
 			break;
-		pixel_to_buf(pix->buf, x, y, chose_color(i, pix->maxIter, pix->col, pix->color));
+		pixel_to_buf(pix->buf, x, y,
+				chose_color(i, pix->maxIter, pix->col, pix->color));
 	}
 }
 
@@ -70,7 +69,6 @@ void		count_tricorn(t_pix *pix, int x, int y)
 	real_im =
 			calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
 	new = (t_vec2) { 0, 0 };
-	old = (t_vec2) { 0, 0 };
 	i = UINT64_MAX;
 	while (++i <= pix->maxIter)
 	{
@@ -80,7 +78,8 @@ void		count_tricorn(t_pix *pix, int x, int y)
 							 -2 * old.x * old.y + real_im.y };
 		if ((new.x * new.x + new.y * new.y) > 4)
 			break;
-		pixel_to_buf(pix->buf, x, y, chose_color(i, pix->maxIter, pix->col, pix->color));
+		pixel_to_buf(pix->buf, x, y,
+				chose_color(i, pix->maxIter, pix->col, pix->color));
 	}
 }
 
@@ -90,21 +89,24 @@ void		count_cubic_mandelbrot(t_pix *pix, int x, int y)
 	t_vec2			new;
 	t_vec2			old;
 	t_vec2			real_im;
+	double			old_x;
+	double			old_y;
 
 	real_im =
 			calc_real_imag((t_vec2){ x, y }, pix->move, pix->rate, pix->zoom);
 	new = (t_vec2) { 0, 0 };
-	old = (t_vec2) { 0, 0 };
 	i = UINT64_MAX;
 	while (++i <= pix->maxIter)
 	{
 		old = (t_vec2){ new.x, new.y };
-		new = (t_vec2){ (old.x * old.x - (old.y * old.y * 3))
-				* old.x + real_im.x, ((old.x * old.x * 3) - old.y * old.y)
-				* old.y + real_im.y };
+		old_x = pix->fract_num == 2 ? old.x : fabs(old.x);
+		old_y = pix->fract_num == 2 ? old.y : fabs(old.y);
+		new = (t_vec2){ (old.x * old.x - (old.y * old.y * 3)) * old_x + real_im.x,
+				((old.x * old.x * 3) - old.y * old.y) * old_y + real_im.y };
 		if ((new.x * new.x + new.y * new.y) > 4)
 			break;
-		pixel_to_buf(pix->buf, x, y, chose_color(i, pix->maxIter, pix->col, pix->color));
+		pixel_to_buf(pix->buf, x, y,
+				chose_color(i, pix->maxIter, pix->col, pix->color));
 	}
 }
 
@@ -117,7 +119,6 @@ void		count_mandelbrot(t_pix *pix, int x, int y)
 
 	real_im = calc_real_imag((t_vec2) {x, y}, pix->move, pix->rate, pix->zoom);
 	new = (t_vec2) { 0, 0 };
-	old = (t_vec2) { 0, 0 };
 	i = UINT64_MAX;
 	while (++i <= pix->maxIter)
 	{
@@ -127,7 +128,8 @@ void		count_mandelbrot(t_pix *pix, int x, int y)
 							 2 * old.x * old.y + real_im.y };
 		if ((new.x * new.x + new.y * new.y) > 4)
 			break;
-			pixel_to_buf(pix->buf, x, y, chose_color(i, pix->maxIter, pix->col, pix->color));
+			pixel_to_buf(pix->buf, x, y,
+					chose_color(i, pix->maxIter, pix->col, pix->color));
 	}
 }
 
@@ -149,6 +151,7 @@ void		count_julia(t_pix *pix, int x, int y)
 						2 * old.x * old.y + real_im.y };
 		if ((new.x * new.x + new.y * new.y) > 4)
 			break;
-		pixel_to_buf(pix->buf, x, y, chose_color(i, pix->maxIter, pix->col, pix->color));
+		pixel_to_buf(pix->buf, x, y,
+				chose_color(i, pix->maxIter, pix->col, pix->color));
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:54:23 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/27 22:09:41 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/28 22:47:12 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@
 # define CENTERING	5.0
 # define THREADS	10
 # define COLOR		0xFAEFEF
+# define COL		0xFF0000
 # define NAME		"FRACTOL BY VTLOSTIU"
 
 enum				e_keys
 {
 	ESC = 53, LEFT_ARROW = 123, RIGHT_ARROW = 124, R = 15, C = 8,
-	I = 34, UP_ARROW = 126, DOWN_ARROW = 125,
+	I = 34, U = 32, UP_ARROW = 126, DOWN_ARROW = 125,
 	S = 1, MOUSE_UP = 4, MOUSE_DOWN = 5,
 //	SIX = 88, FIVE = 87, THREE = 85,
 //	TWO = 84, NINE = 92, EIGHT = 91, P = 35, PLUS = 69, MINUS = 78,
@@ -107,6 +108,7 @@ void				init_heart(t_pix *pix);
 void				change_reset(t_pix *pix);
 void				create_threads(t_pix *pix);
 void				choose_fract(t_pix *pix, size_t start, size_t end);
+unsigned int		color_yellow(int i, int maxIter, t_color col);
 unsigned int		color_breeze(int i, int maxIter, t_color col);
 unsigned int		color_psy(int i, int maxIter);
 unsigned int		color_flame(int i, int maxIter, t_color col);
@@ -115,6 +117,5 @@ unsigned int		color_red(int i, int maxIter, t_color col);
 unsigned int		chose_color(size_t i, int maxIter, t_color col, int color);
 t_vec2				calc_real_imag(t_vec2 coord, t_vec2 move,
 						double rate, double zoom);
-
 
 #endif

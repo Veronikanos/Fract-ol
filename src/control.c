@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/27 22:16:30 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/28 22:50:51 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void		change_reset(t_pix *pix)
 		init_julia(pix);
 	else if (pix->fract_num == 1)
 		init_mandelbrot(pix);
-	else if (pix->fract_num == 2)
+	else if (pix->fract_num == 2 || pix->fract_num == 7)
 		init_cubic_mandelbrot(pix);
 	else if (pix->fract_num == 3)
 		init_mandelbrot(pix);
 	else if (pix->fract_num == 4)
 		init_burning_ship(pix);
-	else if (pix->fract_num == 5)
+	else if (pix->fract_num == 5 || pix->fract_num == 6)
 		init_heart(pix);
 	draw_screen(pix);
 }
@@ -35,8 +35,10 @@ int				kb_press_key(int key, t_pix *pix) {
 //		system("leaks -q fractol");
 		exit(0);
 //	}
-	if (key == I)
-		pix->maxIter += 5;
+	if (key == I && pix->maxIter < 1000)
+		pix->maxIter += 3;
+	if (key == U && pix->maxIter > 1)
+		pix->maxIter -= 3;
 	if (key == LEFT_ARROW)
 		pix->move.x += 0.05;
 	if (key == RIGHT_ARROW)
@@ -47,11 +49,11 @@ int				kb_press_key(int key, t_pix *pix) {
 		pix->move.y -= 0.05;
 	if (key == S)
 	{
-		pix->fract_num = ++pix->fract_num % 6;
+		pix->fract_num = ++pix->fract_num % 8;
 		change_reset(pix);
 	}
 	if (key == C)
-		pix->color = ++pix->color % 5;
+		pix->color = ++pix->color % 6;
 	if (key == R)
 		change_reset(pix);
 	draw_screen(pix);

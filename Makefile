@@ -17,12 +17,19 @@ SRC_PATH = src
 
 SRC_N 	= main.c \
 	error_messages.c \
+	choose_color_scheme.c \
+	color.c \
+	control.c \
+	count_fractals.c \
+	draw_fractals.c \
+	init_fractals.c \
+	threads.c
 
 INC = -I ./inc -I ./libft/includes/
 
 CC = gcc -g
 
-FLAG = -Wall -Wextra #-Werror
+FLAG = -Wall -Wextra -Werror -pthreads
 
 SRC = $(addprefix ./$(SRC_PATH)/, $(SRC_N))
 

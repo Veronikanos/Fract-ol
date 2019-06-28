@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/24 20:35:29 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/24 20:35:29 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/06/28 20:36:27 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,7 @@ unsigned int		chose_color(size_t i, int maxIter, t_color col, int color)
 		return (color_psy(i, maxIter));
 	else if (color == 4)
 		return (color_breeze(i, maxIter, col));
+	else if (color == 5)
+		return (color_yellow(i, maxIter, col));
 	return (0);
 }
