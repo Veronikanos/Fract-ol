@@ -6,11 +6,10 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:40:15 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/28 22:57:14 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/07/01 19:26:46 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include <stddef.h>
 #include "fractol.h"
 
 static void		clear_img(t_pix *pix)
@@ -31,13 +30,11 @@ static void		clear_img(t_pix *pix)
 
 void			pixel_to_buf(int *buf, int x, int y, int color)
 {
-//	x += pix->move.x;
-//	y += pix->move.y;
 	if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
 		buf[y * WIDTH + x] = color;
 }
 
-void		choose_fract(t_pix *pix, size_t start, size_t end)
+void			choose_fract(t_pix *pix, size_t start, size_t end)
 {
 	size_t x;
 	size_t y;
@@ -50,7 +47,7 @@ void		choose_fract(t_pix *pix, size_t start, size_t end)
 		{
 			if (pix->fract_num == 0)
 				count_julia(pix, x, y);
-			else  if (pix->fract_num == 1)
+			else if (pix->fract_num == 1)
 				count_mandelbrot(pix, x, y);
 			else if (pix->fract_num == 2 || pix->fract_num == 7)
 				count_cubic_mandelbrot(pix, x, y);
@@ -64,7 +61,7 @@ void		choose_fract(t_pix *pix, size_t start, size_t end)
 	}
 }
 
-static char 				*name_fractal(int num)
+static char		*name_fractal(int num)
 {
 	if (num == 0)
 		return ("Julia");
@@ -85,13 +82,13 @@ static char 				*name_fractal(int num)
 	return (0);
 }
 
-void				draw_screen(t_pix *pix)
+void			draw_screen(t_pix *pix)
 {
 	char *iter;
 	char *name;
 
 	name = name_fractal(pix->fract_num);
-	iter = ft_itoa(pix->maxIter);
+	iter = ft_itoa(pix->maxiter);
 	mlx_clear_window(pix->mlx_ptr, pix->win_ptr);
 	create_threads(pix);
 	mlx_put_image_to_window(pix->mlx_ptr, pix->win_ptr, pix->img_ptr, 0, 0);

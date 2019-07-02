@@ -6,7 +6,7 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:56:21 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/28 22:50:51 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/07/01 19:37:07 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void		which_one_fract(char **argv, t_pix *pix)
 {
 	if ((((ft_strcmp(argv[1], "Julia") == 0
-	|| ft_strcmp(argv[1], "J" ) == 0) && (pix->fract_num = 0) == 0))
+	|| ft_strcmp(argv[1], "J") == 0) && (pix->fract_num = 0) == 0))
 	|| ((ft_strcmp(argv[1], "Mandelbrot") == 0
 	|| ft_strcmp(argv[1], "M") == 0) && (pix->fract_num = 1))
 	|| ((ft_strcmp(argv[1], "Cubic_mandelbrot") == 0
@@ -32,7 +32,7 @@ static void		which_one_fract(char **argv, t_pix *pix)
 	|| ft_strcmp(argv[1], "S") == 0) && (pix->fract_num = 7)))
 		change_reset(pix);
 	else
-		errors_msg(2);
+		errors_msg(1);
 }
 
 static t_pix	*init_win(t_pix *pix)
@@ -54,19 +54,18 @@ int				main(int argc, char **argv)
 	if (argc != 2)
 		errors_msg(1);
 	else
-		{
-			if (!(pix = (t_pix *)malloc(sizeof(t_pix))))
-				errors_msg(4);
-			init_win(pix);
-			which_one_fract(argv, pix);
-			draw_screen(pix);
-			mlx_hook(pix->win_ptr, 2, 5, kb_press_key, pix);
-			mlx_mouse_hook(pix->win_ptr, mouse_zoom, pix);
-			mlx_hook(pix->win_ptr, 6, 8, mouse_julia, pix);
-			mlx_hook(pix->win_ptr, 17, 1L << 17, errors_msg, NULL);
-			mlx_loop(pix->mlx_ptr);
-			mlx_destroy_window(pix->mlx_ptr, pix->win_ptr);
-		//	system("leaks -q fractol");
-        }
+	{
+		if (!(pix = (t_pix *)malloc(sizeof(t_pix))))
+			errors_msg(4);
+		init_win(pix);
+		which_one_fract(argv, pix);
+		draw_screen(pix);
+		mlx_hook(pix->win_ptr, 2, 5, kb_press_key, pix);
+		mlx_mouse_hook(pix->win_ptr, mouse_zoom, pix);
+		mlx_hook(pix->win_ptr, 6, 8, mouse_julia, pix);
+		mlx_hook(pix->win_ptr, 17, 1L << 17, errors_msg, NULL);
+		mlx_loop(pix->mlx_ptr);
+		mlx_destroy_window(pix->mlx_ptr, pix->win_ptr);
+	}
 	return (0);
 }

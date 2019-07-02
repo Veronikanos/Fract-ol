@@ -6,18 +6,15 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/27 16:54:23 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/28 22:47:12 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/07/01 19:06:40 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-//# include <stdlib.h>
-//# include <unistd.h>
 # include <pthread.h>
 # include <stdio.h>
-//# include <fcntl.h>
 # include <math.h>
 # include <mlx.h>
 # include "get_next_line.h"
@@ -30,19 +27,16 @@
 # define MIN_ZOOM	0.0005
 # define MAX_ZOOM	100
 # define CENTERING	5.0
-# define THREADS	10
+# define THREADS	4
 # define COLOR		0xFAEFEF
 # define COL		0xFF0000
 # define NAME		"FRACTOL BY VTLOSTIU"
 
 enum				e_keys
 {
-	ESC = 53, LEFT_ARROW = 123, RIGHT_ARROW = 124, R = 15, C = 8,
-	I = 34, U = 32, UP_ARROW = 126, DOWN_ARROW = 125,
-	S = 1, MOUSE_UP = 4, MOUSE_DOWN = 5,
-//	SIX = 88, FIVE = 87, THREE = 85,
-//	TWO = 84, NINE = 92, EIGHT = 91, P = 35, PLUS = 69, MINUS = 78,
-	// I = 34, PLUS2 = 24, MINUS2 = 27
+	ESC = 53, R = 15, C = 8, S = 1, I = 34, U = 32,
+	UP_ARROW = 126, DOWN_ARROW = 125, LEFT_ARROW = 123, RIGHT_ARROW = 124,
+	MOUSE_UP = 4, MOUSE_DOWN = 5
 };
 
 typedef struct		s_vector2
@@ -63,8 +57,6 @@ typedef struct		s_pix
 	double			zoom;
 	double 			rate;
 	t_vec2			move;
-//	t_vec2			new;
-//	t_vec2			old;
 	t_vec2			real_im;
 	t_vec2			mouse;
 	t_color			col;
@@ -74,7 +66,7 @@ typedef struct		s_pix
 	int				julia_move;
 	int				color;
 	int 			fract_num;
-	int 			maxIter;
+	size_t			maxiter;
 	int				bits_per_pixel;
 	int				*buf;
 	int				size_line;
@@ -108,12 +100,12 @@ void				init_heart(t_pix *pix);
 void				change_reset(t_pix *pix);
 void				create_threads(t_pix *pix);
 void				choose_fract(t_pix *pix, size_t start, size_t end);
-unsigned int		color_yellow(int i, int maxIter, t_color col);
-unsigned int		color_breeze(int i, int maxIter, t_color col);
-unsigned int		color_psy(int i, int maxIter);
-unsigned int		color_flame(int i, int maxIter, t_color col);
-unsigned int		color_burning_ship(int i, int maxIter, t_color col);
-unsigned int		color_red(int i, int maxIter, t_color col);
+unsigned int		color_yellow(int i, int maxiter, t_color col);
+unsigned int		color_breeze(int i, int maxiter, t_color col);
+unsigned int		color_psy(int i, int maxiter);
+unsigned int		color_flame(int i, int maxiter, t_color col);
+unsigned int		color_burning_ship(int i, int maxiter, t_color col);
+unsigned int		color_red(int i, int maxiter, t_color col);
 unsigned int		chose_color(size_t i, int maxIter, t_color col, int color);
 t_vec2				calc_real_imag(t_vec2 coord, t_vec2 move,
 						double rate, double zoom);

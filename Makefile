@@ -23,6 +23,7 @@ SRC_N 	= main.c \
 	count_fractals.c \
 	draw_fractals.c \
 	init_fractals.c \
+	julia.c \
 	threads.c
 
 INC = -I ./inc -I ./libft/includes/
@@ -46,10 +47,6 @@ $(NAME): objdir $(OBJ)
 		@make -C libft/
 		$(CC) -o $(NAME) $(OBJ) $(INC) -L libft/ -lft  -lm -lmlx -framework OpenGL -framework AppKit
 		@echo "        \033[0;34m FRACTOL \033[0;35m"
-		@echo "	\033[0;34m FRACTOL     \033[0;35m"
-		@echo "	\033[0;33m FRACTOL   \033[0;35m"
-		@echo "	\033[0;33m FRACTOL     \033[0;35m"
-		@echo "	\033[0;33m FRACTOL     \033[0;35m"
 
 objdir:
 	mkdir -p $(OBJ_PATH)

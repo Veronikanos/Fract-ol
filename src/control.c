@@ -6,13 +6,13 @@
 /*   By: vtlostiu <vtlostiu@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/21 19:42:38 by vtlostiu          #+#    #+#             */
-/*   Updated: 2019/06/28 22:50:51 by vtlostiu         ###   ########.fr       */
+/*   Updated: 2019/07/01 19:41:26 by vtlostiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void		change_reset(t_pix *pix)
+void			change_reset(t_pix *pix)
 {
 	if (pix->fract_num == 0)
 		init_julia(pix);
@@ -29,16 +29,14 @@ void		change_reset(t_pix *pix)
 	draw_screen(pix);
 }
 
-int				kb_press_key(int key, t_pix *pix) {
+int				kb_press_key(int key, t_pix *pix)
+{
 	if (key == ESC)
-//	{
-//		system("leaks -q fractol");
 		exit(0);
-//	}
-	if (key == I && pix->maxIter < 1000)
-		pix->maxIter += 3;
-	if (key == U && pix->maxIter > 1)
-		pix->maxIter -= 3;
+	if (key == I && pix->maxiter + 3 <= 1000)
+		pix->maxiter += 3;
+	if (key == U && pix->maxiter > 3)
+		pix->maxiter -= 3;
 	if (key == LEFT_ARROW)
 		pix->move.x += 0.05;
 	if (key == RIGHT_ARROW)
@@ -63,7 +61,7 @@ int				kb_press_key(int key, t_pix *pix) {
 t_vec2			calc_real_imag(t_vec2 coord, t_vec2 move,
 								double rate, double zoom)
 {
-	return ((t_vec2) { rate * (coord.x - H_WIDTH) / (zoom * WIDTH ) + move.x,
+	return ((t_vec2){ rate * (coord.x - H_WIDTH) / (zoom * WIDTH) + move.x,
 							(coord.y - H_HEIGHT) / (zoom * HEIGHT) + move.y });
 }
 
